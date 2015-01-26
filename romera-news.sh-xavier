@@ -1,0 +1,14 @@
+#!/bin/bash
+FILE="romera_mobox_Promo-200-16-02-RO-TN-TV-Romera-News-Segunda-Edicao-151013 - 662.mp4"
+DIR="/mnt/hd500/logs_novo/tv_new/romera_mobox/"
+arquivo_log="/tmp/romera_news.txt"
+
+ls -la | grep "Oct 17" | grep status | cut -d " " -f14 >  /tmp/romera_news.txt
+
+(cd $DIR; 
+cat $arquivo_log | while read line
+        do
+	
+	zcat "${line}" | grep "$FILE" 
+done )
+#        cp -a "${line}" /tmp/temp/

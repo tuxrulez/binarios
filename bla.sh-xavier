@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#####
+## Realiza o sincronismo dos dados
+##
+## Autores: Alexandre e Gil
+## Data: 2009-11-03
+#####
+
+## para o servico, realiza o sync e seta permissoes
+
+x=`rsync -razv --copy-links --delete --password-file=/etc/radio.update rsync://Muffato_Adega@65.111.171.119/Muffato_Adega/scripts/update/bla.txt /tmp/`
+
+if [ $? == 0 ]; then
+        rsync -razv --copy-links --delete --password-file=/etc/radio.update rsync://Muffato_Adega@65.111.171.119/Muffato_Adega /mnt/hd500/mnt/muffato
+        chown www-data. -R /mnt/hd500/mnt/muffato
+else
+        exit 0
+fi

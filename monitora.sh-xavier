@@ -1,0 +1,15 @@
+#!/bin/bash
+y=`cat /tmp/vpn.txt | wc -l`
+IP="172.28.184.5"
+x=`ping -c3 $IP`
+	if [ $? == 1 ]; then
+		echo "reiniciei"
+		/etc/init.d/ipsec restart
+		echo "reiniciei o ipsec - `date` " >> /tmp/vpn.txt
+	else
+	if [ $y == 200 ]; then
+		rm -f /tmp/vpn.txt
+	fi
+		echo "nao fiz nada - `date` " >> /tmp/vpn.txt
+		exit 0
+	fi	

@@ -1,0 +1,20 @@
+#!/bin/bash
+rsync -razv --copy-links --delete --password-file=/etc/radio.update rsync://Makro_Mural@10.0.1.165:873/Makro_Mural /mnt/hd500/mnt/mural_makro
+
+echo -en "\t\nQual Maquina: 
+		1 - No Servidor
+		2 - Mural Normal
+		* - Sair >> "; read maq
+
+case $maq in
+	1) 
+	echo "No servidor"
+	exit 0
+;;
+	2)
+	echo "Em um mural!"
+	sync.sh
+;;
+	*)
+	exit 0
+esac

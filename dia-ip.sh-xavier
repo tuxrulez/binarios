@@ -1,0 +1,237 @@
+#!/bin/bash
+basetv="/mnt/hd500/logs_novo/tv/Dia_Mix_TV"
+baseradio="/mnt/hd500/logs_novo/radio/Dia_Sup"
+
+# Lj_100 - TV Mix
+ip=$(cd $basetv; ls -la | grep "`date | cut -d " " -f2-3 `" | grep Lj_100 | cut -d " " -f11)
+x=`zcat $basetv/$ip | grep "EXTERNO" | cut -d "=" -f2`
+echo $x > /tmp/Lj_100.txt
+
+# Lj_9142 - Radio
+ipr=$(cd $baseradio; ls -la | grep "`date | cut -d " " -f2-3 `" | grep Lj_9142 | grep status| cut -d " " -f12)
+y=`zcat $baseradio/$ipr | grep "EXTERNO" | cut -d "=" -f2`
+echo $y > /tmp/Lj_9142.txt
+
+# Lj_9143 - Radio
+ipr=$(cd $baseradio; ls -la | grep "`date | cut -d " " -f2-3 `" | grep Lj_9143 | grep status| cut -d " " -f12)
+y=`zcat $baseradio/$ipr | grep "EXTERNO" | cut -d "=" -f2`
+echo $y > /tmp/Lj_9143.txt
+
+# Lj_9179 - Radio
+ipr=$(cd $baseradio; ls -la | grep "`date | cut -d " " -f2-3 `" | grep Lj_9179 | grep status| cut -d " " -f12)
+y=`zcat $baseradio/$ipr | grep "EXTERNO" | cut -d "=" -f2`
+echo $y > /tmp/Lj_9179.txt
+
+# Lj_9236 - Radio
+ipr=$(cd $baseradio; ls -la | grep "`date | cut -d " " -f2-3 `" | grep Lj_9236 | grep status| cut -d " " -f12)
+y=`zcat $baseradio/$ipr | grep "EXTERNO" | cut -d "=" -f2`
+echo $y > /tmp/Lj_9236.txt
+
+# Lj_9335 - Radio
+ipr=$(cd $baseradio; ls -la | grep "`date | cut -d " " -f2-3 `" | grep Lj_9335 | grep status| cut -d " " -f12)
+y=`zcat $baseradio/$ipr | grep "EXTERNO" | cut -d "=" -f2`
+echo $y > /tmp/Lj_9335.txt
+
+# Lj_9385 - Radio
+ipr=$(cd $baseradio; ls -la | grep "`date | cut -d " " -f2-3 `" | grep Lj_9385 | grep status| cut -d " " -f12)
+y=`zcat $baseradio/$ipr | grep "EXTERNO" | cut -d "=" -f2`
+echo $y > /tmp/Lj_9385.txt
+
+# Lj_9404 - Radio
+ipr=$(cd $baseradio; ls -la | grep "`date | cut -d " " -f2-3 `" | grep Lj_9404 | grep status| cut -d " " -f12)
+y=`zcat $baseradio/$ipr | grep "EXTERNO" | cut -d "=" -f2`
+echo $y > /tmp/Lj_9404.txt
+
+path_relat="/var/log/menu.log"
+bin="/usr/local/bin"
+clear
+echo -n "Qual a rede ? :
+        1  - Dia - Lj 100
+        2  - Dia - Lj 9142
+	3  - Dia - Lj 9236
+	4  - Dia - Lj 9335
+	5  - Dia - Lj 9143
+	6  - Dia - Lj 9385
+	7  - Dia - Lj 9179
+	8  - Dia - Lj 9404
+        *  - Sair
+        Digite OPCAO [numeros]: " ; read con
+case $con in
+        1) echo "Loja Dia 100"
+                echo $USER:in:"Lj_100":`date` >> $path_relat
+                clear
+		echo -n "Qual sua chave: "; read chave
+                if [ $chave == "1313" ]; then
+                echo ""
+                echo ""
+                echo "Acesso SSH a Maquina Lj Dia 100 -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob "
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ip=`cat /tmp/Lj_100.txt`
+	        ssh $user@$ip
+		$bin/menu;
+                else
+                echo $USER:out:"Lj_100":`date` >> $path_relat
+                $bin/menu;
+                fi
+;;
+        2) echo "Loja Dia 9142"
+                echo $USER:in:"Lj_9142":`date` >> $path_relat
+                clear
+		echo -n "Qual sua chave: "; read chave
+                if [ $chave == "1313" ]; then
+                echo ""
+                echo ""
+                echo "Acesso SSH a Maquina Lj Dia 9142 -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob "
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ip=`cat /tmp/Lj_9142.txt`
+                ssh $user@$ip
+		$bin/menu;
+                else
+                echo $USER:out:"Lj_9142":`date` >> $path_relat
+                $bin/menu;
+                fi
+;;
+        3) echo "Loja Dia 9236"
+                echo $USER:in:"Lj_9236":`date` >> $path_relat
+                clear
+		echo -n "Qual sua chave: "; read chave
+                if [ $chave == "1313" ]; then
+                echo ""
+                echo ""
+                echo "Acesso SSH a Maquina Lj Dia 9236 -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob "
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ip=`cat /tmp/Lj_9236.txt`
+                ssh $user@$ip
+		$bin/menu;
+                else
+                echo $USER:out:"Lj_9236":`date` >> $path_relat
+                $bin/menu;
+                fi
+;;
+        4) echo "Loja Dia 9335"
+                echo $USER:in:"Lj_9335":`date` >> $path_relat
+                clear
+		echo -n "Qual sua chave: "; read chave
+                if [ $chave == "1313" ]; then
+                echo ""
+                echo ""
+                echo "Acesso SSH a Maquina Lj Dia 9335 -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob "
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ip=`cat /tmp/Lj_9335.txt`
+                ssh $user@$ip
+		$bin/menu;
+                else
+                echo $USER:out:"Lj_9236":`date` >> $path_relat
+                $bin/menu;
+                fi
+;;
+        5) echo "Loja Dia 9143"
+                echo $USER:in:"Lj_9143":`date` >> $path_relat
+                clear
+		echo -n "Qual sua chave: "; read chave
+                if [ $chave == "1313" ]; then
+                echo ""
+                echo ""
+                echo "Acesso SSH a Maquina Lj Dia 9143 -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob "
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ip=`cat /tmp/Lj_9143.txt`
+                ssh $user@$ip
+		$bin/menu;
+                else
+                echo $USER:out:"Lj_9143":`date` >> $path_relat
+                $bin/menu;
+                fi
+;;
+        6) echo "Loja Dia 9385"
+                echo $USER:in:"Lj_9385":`date` >> $path_relat
+                clear
+		echo -n "Qual sua chave: "; read chave
+                if [ $chave == "1313" ]; then
+                echo ""
+                echo ""
+                echo "Acesso SSH a Maquina Lj Dia 9385 -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob "
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ip=`cat /tmp/Lj_9385.txt`
+                ssh $user@$ip
+		$bin/menu;
+                else
+                echo $USER:out:"Lj_9385":`date` >> $path_relat
+                $bin/menu;
+                fi
+;;
+        7) echo "Loja Dia 9179"
+                echo $USER:in:"Lj_9179":`date` >> $path_relat
+                clear
+		echo -n "Qual sua chave: "; read chave
+                if [ $chave == "1313" ]; then
+                echo ""
+                echo ""
+                echo "Acesso SSH a Maquina Lj Dia 9179 -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob "
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ip=`cat /tmp/Lj_9179.txt`
+                ssh $user@$ip
+		$bin/menu;
+                else
+                echo $USER:out:"Lj_9179":`date` >> $path_relat
+                $bin/menu;
+                fi
+;;
+        8) echo "Loja Dia 9404"
+                echo $USER:in:"Lj_9404":`date` >> $path_relat
+                clear
+		echo -n "Qual sua chave: "; read chave
+                if [ $chave == "1313" ]; then
+                echo ""
+                echo ""
+                echo "Acesso SSH a Maquina Lj Dia 9404 -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob "
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ip=`cat /tmp/Lj_9404.txt`
+                ssh $user@$ip
+		$bin/menu;
+                else
+                echo $USER:out:"Lj_9404":`date` >> $path_relat
+                $bin/menu;
+                fi
+;;
+	*) echo "Sair fora ..."
+esac
