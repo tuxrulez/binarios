@@ -1,0 +1,38 @@
+#!/bin/bash
+clear 
+tput cup 10 5
+echo -n 'Qual a rede: 
+		1 - Armazem Paraiba
+		2 - Burger King
+		3 - Condor Mobox
+		4 - FGV
+		5 - Gazin
+		6 - GBarboza Mobox
+		7 - Lojas Colombo
+		8 - Mc Donalds
+		9 - Socic
+		10 - Sistema Antigo
+		0 - Sair
+		resp: >> '; read rede
+case $rede in
+	1) echo "Usando Armazem Paraiba"
+	
+	echo $rede
+;;
+	*)
+;;
+esac
+echo 'Para arquivo de IMAGENS e/ou MP3, 
+	edite os arquivos 
+	>> IMAGENS: /tmp/lista_imagens.txt 
+	>> MP3: /tmp/lista_mp3.txt"'
+#echo -n 'Entre com o arquivo: '; read x
+echo -n 'Entre com o arquivo: '
+sh vim /tmp/lista_video.txt
+echo -n "Seu arquivo escolhido foi $x (correto S/N) "; read op
+if [ $op == "N" ]; then
+	echo "Entao digita correto CAVALO!"
+else
+	echo $x > /tmp/lixo
+fi
+

@@ -1,0 +1,5 @@
+#!/bin/bash
+locate="/mnt/hd500/logs_novo/radio/GBarbosa"
+rede="gbarbosa"
+ip="10.0.1.120"
+rsync -aq --timeout=180 --password-file=/etc/tv.update ${locate}/*audiencia*.zip rsync://${rede}@${ip}:/${rede}_logs

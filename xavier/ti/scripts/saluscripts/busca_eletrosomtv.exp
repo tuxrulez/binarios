@@ -1,0 +1,36 @@
+#!/usr/bin/expect
+
+# transfere.exp: TRANSFERE OS ARQUIVOS DE LOG PARA O SERVIDOR HOSPEDADO NO CLIENTE
+# Jorge Luiz de Paula Martins Filho <jorge@radiobusiness.com.br>
+# 2004-02-27
+
+# Atualizado por:
+# Salustriano Bessa <salusbessa@yahoo.com.br>
+# em 2010-06-18
+
+set timeout 300
+
+spawn /bin/sh -c "/usr/bin/scp -p radiob@189.112.219.249:/var/log/tv/*status.zip /mnt/hd500/logs_novo/tv/Eletrosom_TV"
+expect {
+    timeout {
+        exit 1
+    }
+    -re "lost" {
+        exit 1
+    }
+    -re "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        exp_continue
+        exit 0
+    }
+    -re "password:" {
+        send "radiob\r"
+        exp_continue
+        exit 0
+    }
+    -re "Password:" {
+        send "radiob\r"
+        exp_continue
+        exit 0
+    }
+}

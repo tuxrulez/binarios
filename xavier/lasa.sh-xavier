@@ -1,0 +1,87 @@
+#!/bin/bash
+basetv="/mnt/hd500/logs_novo/tv_new/lasa_mobox"
+
+# Lj brinq_fem
+ipr=$(cd $basetv; ls -la | grep "`date | cut -d " " -f2-3 `" | grep lasa_mobox_m_067 |  grep brinq_fem | grep status| cut -d " " -f11)
+# quando nao funcionar comente a linha acima e descomente a linha abaixo
+#ipr=$(cd $basetv; ls -la | grep "`date | cut -d " " -f2-3 `" | grep lasa_mobox_m_067 |  grep brinq_fem | grep status| cut -d " " -f12)
+y=`zcat $basetv/$ipr | grep "EXTERNO" | cut -d "=" -f2`
+echo $y > /tmp/Lasa-brinq_fem.txt
+# Lj Dvd
+ipr=$(cd $basetv; ls -la | grep "`date | cut -d " " -f2-3 `" | grep lasa_mobox_m_067 |  grep dvd | grep status| cut -d " " -f11)
+# quando nao funcionar comente a linha acima e descomente a linha abaixo
+#ipr=$(cd $basetv; ls -la | grep "`date | cut -d " " -f2-3 `" | grep lasa_mobox_m_067 |  grep dvd | grep status| cut -d " " -f12)
+y=`zcat $basetv/$ipr | grep "EXTERNO" | cut -d "=" -f2`
+echo $y > /tmp/Lasa-dvd.txt
+# Lj brinq_fem
+ipr=$(cd $basetv; ls -la | grep "`date | cut -d " " -f2-3 `" | grep lasa_mobox_m_067 |  grep vitrine | grep status| cut -d " " -f11)
+# quando nao funcionar comente a linha acima e descomente a linha abaixo
+#ipr=$(cd $basetv; ls -la | grep "`date | cut -d " " -f2-3 `" | grep lasa_mobox_m_067 |  grep vitrine | grep status| cut -d " " -f12)
+y=`zcat $basetv/$ipr | grep "EXTERNO" | cut -d "=" -f2`
+echo $y > /tmp/Lasa-vitrine.txt
+
+
+
+path_relat="/var/log/menu.log"
+bin="/usr/local/bin"
+clear
+echo -n "Qual a rede ? :
+        1  - Lasa - Setor: Brinquedos e Feminino
+        2  - Lasa - Setor: Dvd
+	3  - Lasa - Setor: Vitrine
+        *  - Sair
+        Digite OPCAO [numeros]: " ; read con
+case $con in
+        1) echo "Lojas Americanas - brinq_fem"
+                echo $USER:in:"Lasa-brinq_fem":`date` >> $path_relat
+                clear
+		echo -n "Qual sua chave: "; read chave
+                if [ $chave == "1313" ]; then
+                echo ""
+                echo ""
+                echo "Acesso SSH a Maquina Lj brinq_fem Lasa -- `date`"
+                echo ""
+                ip=`cat /tmp/Lasa-brinq_fem.txt`
+	        ssh root@$ip -p 2223
+		$bin/servidores.sh;
+                else
+                echo $USER:out:"Lasa-brinq_fem":`date` >> $path_relat
+                $bin/servidores.sh;
+                fi
+;;
+        2) echo "Lojas Americanas - Dvd"
+                echo $USER:in:"Lasa-dvd":`date` >> $path_relat
+                clear
+		echo -n "Qual sua chave: "; read chave
+                if [ $chave == "1313" ]; then
+                echo ""
+                echo ""
+                echo "Acesso SSH a Maquina Lj dvd Lasa -- `date`"
+                echo ""
+                ip=`cat /tmp/Lasa-dvd.txt`
+	        ssh root@$ip -p 2221
+		$bin/servidores.sh;
+                else
+                echo $USER:out:"Lasa-dvd":`date` >> $path_relat
+                $bin/servidores.sh;
+                fi
+;;
+        3) echo "Lojas Americanas - Vitrine"
+                echo $USER:in:"Lasa-Vitrine":`date` >> $path_relat
+                clear
+		echo -n "Qual sua chave: "; read chave
+                if [ $chave == "1313" ]; then
+                echo ""
+                echo ""
+                echo "Acesso SSH a Maquina Lj Vitrine Lasa -- `date`"
+                echo ""
+                ip=`cat /tmp/Lasa-vitrine.txt`
+	        ssh root@$ip -p 2224
+		$bin/servidores.sh;
+                else
+                echo $USER:out:"Lasa-vitrine":`date` >> $path_relat
+                $bin/servidores.sh;
+                fi
+;;
+	*) echo "Sair fora ..."
+esac

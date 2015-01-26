@@ -1,0 +1,550 @@
+#!/bin/bash
+
+# Script que gera um pacote tar.gz no diretorio scripts da rede passada como parametro com conteudo, scripts, xml que esta publicado no servidor chimera para que o servidor do satelite faca rsync e mande o pacote para o destino
+# Este script recebe como parametro o nome da rede da qual sera gerado o pacote, este nome deve seguir o padrao que esta publicado no servidor chimera
+# Gildecio Barbosa <gil_barboza@hotmail.com>
+# Salustriano Bessa <salusbessa@yahoo.com.br>
+# 2011-08-05
+
+
+rede="$1"
+
+## Monta cabecario para http://10.0.1.226/rede.html
+echo "<html>" > /var/www/rede.html
+echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"5\"> " >> /var/www/rede.html
+echo "Rede em uso: <br>" >> /var/www/rede.html
+echo "<br><b>NAO</b> atualizar nenhuma maquina da rede: $1" >> /var/www/rede.html
+echo "</html>" >> /var/www/rede.html
+
+
+
+integridade_hum=`cat /tmp/lista_video.txt`
+integridade_dois=`cat /tmp/lista_imagem.txt`
+integridade_tres=`cat /tmp/lista_audio.txt`
+integridade_quatro=`cat /tmp/video_mute.txt`
+
+cp /tmp/lista_video.txt /tmp/lista_video-$rede.txt
+cp /tmp/lista_imagem.txt /tmp/lista_imagem-$rede.txt
+cp /tmp/lista_audio.txt /tmp/lista_audio-$rede.txt
+cp /tmp/video_mute.txt /tmp/video_mute-$rede.txt
+
+#integridade_hum-$rede=`cat /tmp/lista_video-$rede.txt`
+#integridade_dois-$rede=`cat /tmp/lista_imagem-$rede.txt`
+#integridade_tres-$rede=`cat /tmp/lista_audio-$rede.txt`
+#integridade_quatro-$rede=`cat /tmp/video_mute-$rede.txt`
+
+
+
+#if [ "$rede" != "" -a "$integridade_hum-$rede" != "" -a "$integridade_dois-$rede" != "" -a "$integridade_tres-$rede" != "" -a "$integridade_quatro-$rede" != "" ]
+if [ "$rede" != "" -a "$integridade_hum" != "" -a "$integridade_dois" != "" -a "$integridade_tres" != "" -a "$integridade_quatro" != "" ]
+	then
+	if [ "$rede" == "fgv" ]
+		then
+	(cd /home/suporte/rsync_final/ ; bash -x ./gera_pacote_fgv.sh $rede)
+	else
+	(cd /home/suporte/rsync_final/ ; bash -x ./gera_pacote_satelite.sh $rede)
+	fi
+
+DATA=`date +%Y%m%d%H%M`
+cd /tmp
+mkdir -p /tmp/importer-$rede
+mkdir -p /tmp/importer-$rede/xml
+mkdir -p /tmp/importer-$rede/medias/audio
+mkdir -p /tmp/importer-$rede/medias/menu
+mkdir -p /tmp/importer-$rede/medias/video
+mkdir -p /tmp/importer-$rede/medias/mute_video
+mkdir -p /tmp/importer-$rede/medias/video/video_image/
+
+cat << __EOF__ > /mnt/hd500/sistema/tv/$rede/scripts/000/remove-update.sh
+
+#!/bin/bash
+
+ls | grep -v adiciona-update.sh | grep -v remove-update.sh | while read arquivo 
+do
+        ls ../ | grep -v ^000 | while read loja
+	do
+        	unlink ../\$loja/\$arquivo 2> /dev/null
+		rm -f \$arquivo
+	done
+done
+__EOF__
+
+chmod +x /mnt/hd500/sistema/tv/$rede/scripts/000/remove-update.sh
+(cd /mnt/hd500/sistema/tv/$rede/scripts/000/; ./remove-update.sh)
+
+
+# Copiando XML necessário
+cd /tmp/importer-$rede/xml
+rm -f *
+find /mnt/hd500/sistema/tv/$rede/sql -name *.zip -exec cp -a {} . \;
+unzip tv.zip
+rm -f tv.zip
+
+# Copiando swf necessario
+cd /tmp/importer-$rede/medias/menu
+rm -r *
+	if [ "$rede" == "armazem_paraiba" -o "$rede" == "socic" ]
+		then 
+	#find /mnt/hd500/sistema/tv/$rede/generos/000 -name armazem_paraiba_promo*.swf -exec cp -a {} . \;
+			find /mnt/hd500/sistema/tv/$rede/generos/000/menu/${rede}_promo* -exec cp -a {} . \;
+		else
+				if [ "$rede" == "fgv" -o "$rede" == "gazin" ]
+			then
+				#find /mnt/hd500/sistema/tv/$rede/generos/000/menu -name fgv* -exec cp -a {} . \;
+				find /mnt/hd500/sistema/tv/$rede/generos/000/menu/* -exec cp -a {} . \;
+			else
+				find /mnt/hd500/sistema/tv/$rede/generos/000 -name *.swf -exec cp -a {} . \;
+		fi
+	fi
+
+# Copiando audios
+cd /tmp/importer-$rede/medias/audio/
+rm -f *
+cat /tmp/lista_audio-$rede.txt | while read audio
+do
+	cp -a /mnt/hd500/sistema/tv/$rede/generos/000/audio/"${audio}" /tmp/importer-$rede/medias/audio/
+done
+
+
+# Copiando videos
+cd /tmp/importer-$rede/medias/video/
+rm -f *
+cat /tmp/lista_video-$rede.txt | while read video
+do
+	cp -a /mnt/hd500/sistema/tv/$rede/generos/000/video/"${video}" /tmp/importer-$rede/medias/video/
+done
+
+# Copiando videos MUDOS
+cd /tmp/importer-$rede/medias/mute_video/
+rm -f *
+cat /tmp/video_mute-$rede.txt | while read videomudo
+do
+	cp -a /mnt/hd500/sistema/tv/$rede/generos/000/mute_video/"${videomudo}" /tmp/importer-$rede/medias/mute_video/
+done
+
+
+# Copiando Imagens
+cd /tmp/importer-$rede/medias/video/video_image/
+rm -f *
+cat /tmp/lista_imagem-$rede.txt | while read imagem
+do
+	cp -a /mnt/hd500/sistema/tv/$rede/generos/000/video/video_image/"${imagem}" /tmp/importer-$rede/medias/video/video_image/
+done
+
+# Correcoes necessarias
+cp -a /usr/src/correcoes/*.* /tmp/importer-$rede/
+cp -a /usr/src/correcoes/* /tmp/importer-$rede/
+cp -a /usr/src/clientes/$rede /tmp/importer-$rede
+
+# Gerando o pacote 
+cd /tmp
+tar cvzf /mnt/hd500/sistema/tv/$rede/scripts/000/atualiza-$DATA.tar.gz importer-$rede/
+chown radiob. /mnt/hd500/sistema/tv/$rede/scripts/000/atualiza-$DATA.tar.gz
+
+cat << __EOF__ > /mnt/hd500/sistema/tv/$rede/scripts/000/atualiza.sh
+#!/bin/bash
+#TODO: Elaborado por:
+# Gildecio E Barboza <gildecio@gmail.com>
+# Script para update $rede - $DATA
+
+(cd /tmp; rm -rf /tmp/*.*)
+
+tar xvzf /usr/local/scripts/atualiza-$DATA.tar.gz -C /tmp
+
+x=\`ls -1 /tmp/importer-$rede 2> /dev/null\`
+if [ \$? == 0 ]; then
+	rede=\`cat /usr/local/etc/setup.conf | cut -d ";" -f1\`
+	loja=\`cat /usr/local/etc/setup.conf | cut -d ";" -f2\`
+#	(cd /tmp/importer-\$rede/\${rede}/sql/\${loja}/ ; unzip -q tv.zip 2> /dev/null)
+
+########## Copiar apenas os mais novos ############################
+
+file1=\`ls -1 /var/www/mobox/mobox/importer/xml/mediafile.xml\`
+file2=\`ls -1 /tmp/importer-\$rede/xml/mediadatabase.xml\`
+
+if [ \${file2} -nt \${file1} ]; then
+	cp -a /tmp/importer-$rede/xml/*.xml /var/www/mobox/mobox/importer/xml/
+fi
+
+########## Fim - copiar apenas os mais novos ######################
+
+#	cp -a /tmp/${rede}/sql/${loja}/*.xml /var/www/mobox/mobox/importer/xml/ 2> /dev/null
+        cp -a /tmp/importer-$rede/medias/menu/* /var/www/mobox/mobox/importer/medias/menu/ 2> /dev/null
+        cp -a /tmp/importer-$rede/medias/audio/* /var/www/mobox/mobox/importer/medias/audio/ 2> /dev/null
+        cp -a /tmp/importer-$rede/medias/video/* /var/www/mobox/mobox/importer/medias/video/ 2> /dev/null
+        cp -a /tmp/importer-$rede/medias/mute_video/* /var/www/mobox/mobox/importer/medias/mute_video/ 2> /dev/null
+        cp -a /tmp/importer-$rede/medias/video/video_image/* /var/www/mobox/mobox/importer/medias/video/video_image/ 2> /dev/null
+
+# Correcoes Sistema - Felipe		
+
+#TODO: Atualizacao por CLIENTE:
+
+############# Agiplan #############
+# Modificacoes Agiplan
+	if [ \$rede == "agiplan" ]; then
+		if [ \$loja == "agiplan_aa_0001" -o \$loja == "agiplan_am_0024" -o \$loja == "agiplan_ce_0020" -o \$loja == "agiplan_ba_0005" -o \$loja == "agiplan_es_0057" -o	\$loja == "agiplan_ma_0068" -o	\$loja == "agiplan_mg_0078" -o	\$loja == "agiplan_mg_0080" -o	\$loja == "agiplan_mg_0083" -o	\$loja == "agiplan_pi_0072" -o \$loja == "agiplan_pr_0012" -o	\$loja == "agiplan_pr_0029" -o	\$loja == "agiplan_pr_0030" -o	\$loja == "agiplan_pr_0086" -o	\$loja == "agiplan_rj_0071" -o	\$loja == "agiplan_rs_0001" -o	\$loja == "agiplan_rs_0033" -o	\$loja == "agiplan_rs_0061" -o	\$loja == "agiplan_rs_0062" -o	\$loja == "agiplan_rs_0077" -o	\$loja == "agiplan_sc_0073" -o	\$loja == "agiplan_sc_0088" -o	\$loja == "agiplan_se_0048" -o	\$loja == "agiplan_se_0085" -o	\$loja == "agiplan_se_0089" -o	\$loja == "agiplan_sp_0084" -o	\$loja == "agiplan_sp_0087" -o	\$loja == "agiplan_to_0040" -o	\$loja == "agiplan_rs_0027" -o	\$loja == "agiplan_rs_0094" -o	\$loja == "agiplan_sc_0076" -o	\$loja == "agiplan_sp_0074" -o	\$loja == "agiplan_sp_0091" -o	\$loja == "agiplan_rj_0079" -o	\$loja == "agiplan_rj_0093" -o	\$loja == "agiplan_mg_0021" -o	\$loja == "agiplan_ms_0026" -o	\$loja == "agiplan_al_0049" -o	\$loja == "agiplan_to_0095" -o	\$loja == "agiplan_pa_0058" -o	\$loja == "agiplan_ro_0066" -o	\$loja == "agiplan_mg_0014" -o	\$loja == "agiplan_rj_0039" ]; then
+			rm -f /var/spool/cron/crontabs/root
+			cp -a /tmp/importer-$rede/agiplan/crontab.sat /etc/crontab
+		else
+			rm -f /var/spool/cron/crontabs/root
+			cp -a /tmp/importer-$rede/agiplan/crontab /etc/crontab
+		fi	
+		chmod 644 /etc/crontab
+		chown root.root /etc/crontab
+		/etc/init.d/cron restart
+		cp -a /tmp/importer-$rede/agiplan/agiplan.swf /var/www/mobox/src/tv-on-demand/tv_on_demand/tod_skins/agiplan.swf
+		cp -a /tmp/importer-$rede/agiplan/inittab /usr/src/
+		cp -a /tmp/importer-$rede/agiplan/no-dvb.sh /usr/local/bin/
+		cp -a /tmp/importer-$rede/agiplan/log_status.sh /var/www/mobox_deb/usr/local/bin/log_status.sh
+		cp -a /tmp/importer-$rede/agiplan/atualiza_mobox.sh /usr/local/bin/atualiza_mobox.sh
+		cp -a /tmp/importer-$rede/agiplan/pendrive /usr/local/bin/
+		cp -a /tmp/importer-$rede/agiplan/firewall /usr/local/bin/
+		sh /usr/local/bin/firewall
+		cp -a /tmp/importer-$rede/agiplan/rc.local /etc/rc.local
+		chmod +x /var/www/mobox_deb/usr/local/bin/log_status.sh
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/agiplan.txt
+       fi 
+
+############# FGV #############
+# Modificacoes FGV
+	if [ \$rede == "fgv" ]; then
+		if [ \$loja == "botafogo" ]; then
+			cp -a /tmp/importer-$rede/fgv/local_update-botafogo /usr/local/bin/local_update
+			chmod +x /usr/local/bin/local_update
+			cp -a /tmp/importer-$rede/fgv/setupBOTAFOGO.conf	/usr/local/etc/setup.conf
+			cp -a /tmp/importer-$rede/fgv/settings-botafogo.py	/root/settings.py
+			cp -a /etc/inittab	/etc/inittab-OK
+			cp -a /tmp/importer-$rede/fgv/inittab-off	/etc/inittab
+			init q
+			mobox_kill
+			rm -f /var/www/mobox/mobox/mobox.db
+			config_modules.py -q True
+			cp -a /etc/inittab-OK /etc/inittab
+			(cd /var/www/mobox/mobox/importer/xml; rm -f *.xml; unzip /tmp/importer-$rede/fgv/rj_13demaio.zip)
+			(cd /var/www/mobox/mobox; ./manage.py syncdb --noinput; ./manage.py migrate; ./manage.py import_data)
+			chown radiob. /var/www/mobox/mobox/mobox.db
+			reboot 
+		fi
+		if [ \$loja == "rio-de-janeiro" ]; then
+			cp -a /tmp/importer-$rede/fgv/local_update-rj	/usr/local/bin/local_update
+			chmod +x /usr/local/bin/local_update
+			cp -a /tmp/importer-$rede/fgv/settings-riodejaneiro.py	/root/settings.py
+			cp -a /tmp/importer-$rede/fgv/setupRIO.conf	/usr/local/etc/setup.conf
+			cp -a /etc/inittab	/etc/inittab-OK
+			cp -a /tmp/importer-$rede/fgv/inittab-off	/etc/inittab
+			init q
+			mobox_kill
+			rm -f /var/www/mobox/mobox/mobox.db
+			config_modules.py -q True
+			(cd /var/www/mobox/mobox/importer/xml; rm -f *.xml; unzip /tmp/importer-$rede/fgv/rj_bi.zip)
+			cp -a /etc/inittab-OK /etc/inittab
+			(cd /var/www/mobox/mobox; ./manage.py syncdb --noinput; ./manage.py migrate; ./manage.py import_data)
+			chown radiob. /var/www/mobox/mobox/mobox.db
+			reboot 
+		fi
+		cp /tmp/importer-$rede/fgv/resumo.sh /usr/local/bin/resumo.sh
+		(cd /usr/local/bin; chmod +x * ; rm -f /var/spool/cron/crontabs/root)
+		cp -a /tmp/importer-$rede/fgv/crontab /etc/crontab
+		cp -a /tmp/importer-$rede/fgv/tv.update	/etc/tv.update
+		chmod 600 /etc/tv.update
+		cp -a /tmp/importer-$rede/fgv/atualiza_mobox.sh	/usr/local/bin/atualiza_mobox.sh
+		cp -a /tmp/importer-$rede/fgv/fgv.swf	/var/www/mobox/src/tv-on-demand/tv_on_demand/tod_skins/fgv.swf
+		cp -a /tmp/importer-$rede/fgv/limpa_log.sh	/usr/local/bin/limpa_log.sh
+		cp -a /tmp/importer-$rede/fgv/log_status.sh	/usr/local/bin/log_status.sh
+		cp -a /tmp/importer-$rede/fgv/mobox_gen_media_logs	/usr/local/bin/mobox_gen_media_logs
+		cp -a /tmp/importer-$rede/fgv/mobox_gen_promo_logs	/usr/local/bin/mobox_gen_promo_logs
+		cp -a /tmp/importer-$rede/fgv/mobox_update	/usr/local/bin/mobox_update
+		cp -a /tmp/importer-$rede/fgv/muda-senha.exp	/usr/local/bin/muda-senha.exp
+		cp -a /tmp/importer-$rede/fgv/rede.sh	/usr/local/bin/rede.sh
+		cp -a /tmp/importer-$rede/fgv/trata-dvb.sh	/usr/local/bin/trata-dvb.sh
+                echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/fgv.txt
+		## (cd /usr/src/ ; tar xvzf /tmp/importer-$rede/fgv/fgv.tgz; sh /usr/src/fgv/bla.sh) 
+	fi 
+
+############# Socic #############
+# Modificacoes Socic
+	if [ \$rede == "socic" ]; then
+		if [ \$loja == "socic_spo" -o \$loja == "socic_spm" ]; then
+			cp -a /tmp/importer-$rede/socic/crontab-rede /etc/crontab
+		else
+			cp -a /tmp/importer-$rede/socic/crontab /etc/crontab
+		fi
+                cp -a /tmp/importer-$rede/socic/log_status.sh /usr/local/bin/
+		chmod 644 /etc/crontab
+		chown root.root /etc/crontab
+		/etc/init.d/cron restart
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/socic.txt
+	fi 
+	
+############# Gazin #############
+# Modificacoes Gazin
+	if [ \$rede == "gazin" ]; then
+                echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/gazin.txt
+	fi 
+
+############# Mc Donalds #############
+# Modificacoes McDonalds
+	
+	if [ \$rede == "mcdonalds" ]; then
+       		if [ \$loja == "corp_rtv" -o \$loja == "bdttv" -o \$loja == "btltv" -o \$loja == "corptv" -o \$loja == "hutv" ]; then
+			cp -a /tmp/importer-$rede/mcdonalds/rc.local /etc/rc.local
+			cp -a /tmp/importer-$rede/mcdonalds/banner* /var/www/mobox/src/tv-on-demand/tv_on_demand/tod_skins/special/
+			chown radiob.radiob -R /var/www/mobox/mobox/
+		fi
+#		if [ \$loja == "avt_mix" ]; then
+#			cp -a /tmp/importer-$rede/mcdonalds/settings.py /var/www/mobox/mobox/settings.py
+#			config_modules.py -q True
+#			init q
+#		fi
+			cp -a /tmp/importer-$rede/mcdonalds/crontab /etc/crontab
+			echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/mcdonalds.txt
+	fi 
+
+############# Armazem Paraiba #############
+# Modificacoes Armazem Paraiba
+	if [ \$rede == "armazem_paraiba" ]; then
+		cp -a /tmp/importer-$rede/armazem_paraiba/log_status.sh /var/www/mobox_deb/usr/local/bin/log_status.sh
+		cp -a /tmp/importer-$rede/armazem_paraiba/crontab /etc/crontab
+		cp -a /tmp/importer-$rede/armazem_paraiba/inittab /etc/inittab
+		cp -a /tmp/importer-$rede/armazem_paraiba/rc.local /etc/rc.local
+		cp -a /tmp/importer-$rede/armazem_paraiba/armazem_paraiba.swf /var/www/mobox/src/tv-on-demand/tv_on_demand/tod_skins/armazem_paraiba.swf
+		cp -a /tmp/importer-$rede/armazem_paraiba/resumo.sh /usr/local/bin/
+		init q
+                chmod 644 /etc/crontab
+                chown root.root /etc/crontab
+                /etc/init.d/cron restart
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/armazem_paraiba.txt
+       fi 
+
+############# Gbarbosa #############
+# Modificacoes gbarbosa_mobox
+	if [ \$rede == "gbarbosa_mobox" ]; then
+		cp -a /tmp/importer-$rede/gbarbosa_mobox/log_status.sh /var/www/mobox_deb/usr/local/bin/log_status.sh
+		cp -a /tmp/importer-$rede/gbarbosa_mobox/crontab /etc/crontab
+		chown root.root /etc/crontab
+                /etc/init.d/cron restart
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/gbarbosa_mobox.txt
+       fi 
+
+############# Comercial Carvalho #############
+# Modificacoes comercial_carvalho_mobox
+	if [ \$rede == "comercial_carvalho_mobox" ]; then
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/comercial_carvalho_mobox.txt
+       fi
+ 
+############# Muffato_Max #############
+# Modificacoes muffato_max_mobox
+	if [ \$rede == "muffato_max_mobox" ]; then
+		cp -a /tmp/importer-$rede/muffato_max_mobox/log_status.sh /var/www/mobox_deb/usr/local/bin/log_status.sh
+		cp -a /tmp/importer-$rede/muffato_max_mobox/crontab /etc/crontab
+		chown root.root /etc/crontab
+                /etc/init.d/cron restart
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/muffato_max_mobox.txt
+	fi
+ 
+############# Rede Smart #############
+# Modificacoes redesmart_mobox
+	if [ \$rede == "redesmart_mobox" ]; then
+		cp -a /tmp/importer-$rede/redesmart_mobox/crontab /etc/crontab
+		cp -a /tmp/importer-$rede/redesmart_mobox/log_status.sh /usr/local/bin/
+                chmod 644 /etc/crontab
+                chown root.root /etc/crontab
+		/etc/init.d/cron restart
+		echo "nameserver 8.8.8.8" > /etc/resolv.conf
+		cp -a /tmp/importer-$rede/redesmart_mobox/inittab /etc/inittab
+		cp -a /tmp/importer-$rede/redesmart_mobox/rc.local /etc/rc.local
+		chmod +x /etc/rc.local
+		sh /etc/rc.local
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/redesmart_mobox.txt
+	fi 
+
+############# Burger King #############
+# Modificacoes burger_king
+	if [ \$rede == "burger_king" ]; then
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/burger_king.txt
+	fi 
+
+############# Subway #############
+# Modificacoes subway_mobox
+	if [ \$rede == "subway_mobox" ]; then
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/subway_mobox.txt
+	fi 
+
+############# Uninter #############
+# Modificacoes uninter
+	if [ \$rede == "uninter" ]; then
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/uninter.txt
+	fi 
+
+############# Condor #############
+# Modificacoes condor_mobox
+	if [ \$rede == "condor_mobox" ]; then
+		cp -a /tmp/importer-$rede/condor_mobox/crontab /etc/crontab
+		cp -a /tmp/importer-$rede/condor_mobox/log_status.sh /var/www/mobox_deb/usr/local/bin/log_status.sh
+                chmod 644 /etc/crontab
+                chown root.root /etc/crontab
+                /etc/init.d/cron restart
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/condor_mobox.txt
+	fi 
+
+############# diatv_mix_mobox  #############
+# Modificacoes diatv_mix_mobox
+	if [ \$rede == "diatv_mix_mobox" ]; then
+		cp -a /tmp/importer-$rede/diatv_mix_mobox/crontab /etc/crontab
+		cp -a /tmp/importer-$rede/diatv_mix_mobox/log_status.sh /var/www/mobox_deb/usr/local/bin/log_status.sh
+		cp -a /tmp/importer-$rede/diatv_mix_mobox/arruma.sh /usr/local/bin/
+		sh /usr/local/bin/arruma.sh
+                chmod 644 /etc/crontab
+                chown root.root /etc/crontab
+                /etc/init.d/cron restart
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/diatv_mix_mobox.txt
+	fi 
+
+############# Lojas Colombo - PREMIUM #############
+# Modificacoes lojas_colombo
+	if [ \$rede == "premium_colombo" ]; then
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/premium_colombo.txt
+       fi
+
+############# Lojas ROMERA #############
+# Modificacoes romera
+	if [ \$rede == "romera_mobox" ]; then
+		cp -a /tmp/importer-$rede/romera_mobox/romera.swf /var/www/mobox/src/tv-on-demand/tv_on_demand/tod_skins/romera.swf
+		cp -a /tmp/importer-$rede/romera_mobox/crontab /etc/crontab
+		cp -a /tmp/importer-$rede/romera_mobox/log_status.sh /var/www/mobox_deb/usr/local/bin/log_status.sh
+		rm -f /usr/local/bin/log_status.sh
+		ln -s /var/www/mobox_deb/usr/local/bin/log_status.sh /usr/local/bin/log_status.sh
+                cp -a /tmp/importer-$rede/romera_mobox/abre-cliente.sh /usr/local/bin/
+                cp -a /tmp/importer-$rede/romera_mobox/fecha-cliente.sh /usr/local/bin/
+                cp -a /tmp/importer-$rede/romera_mobox/inittab /etc/inittab
+                cp -a /tmp/importer-$rede/romera_mobox/resumo.sh /usr/local/bin/
+		init q
+                chmod +x /usr/local/bin/*.sh
+		chmod +x /usr/local/bin/log_status.sh
+		chmod 644 /etc/crontab
+                chown root.root /etc/crontab
+                /etc/init.d/cron restart
+		#cp /tmp/importer-$rede/romera_mobox/NVIDIA-Linux-x86-304.88.run /home/radiob/
+		cp -a /tmp/importer-$rede/romera_mobox/rede.sh /usr/local/bin/
+		cp -a /tmp/importer-$rede/romera_mobox/romerahosts /usr/local/bin/
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/romera_mobox.txt
+       fi
+
+############# Piloto - Extra_Minimercado_MObox #############
+# Modificacoes romera
+	if [ \$rede == "extra_minimercado_mobox" ]; then
+		cp -a /tmp/importer-$rede/extra_minimercado_mobox/extra_minimercado_mobox.swf /var/www/mobox/src/tv-on-demand/tv_on_demand/tod_skins/extra_minimercado_mobox.swf
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/extra_minimercado_mobox.txt
+       fi
+
+############# Lojas Mercantil Rodrigues #############
+# Modificacoes mercantil_rodrigues_mobox
+	if [ \$rede == "mercantil_rodrigues_mobox" ]; then
+		cp -a /tmp/importer-$rede/mercantil_rodrigues_mobox/crontab /etc/crontab
+		cp -a /tmp/importer-$rede/mercantil_rodrigues_mobox/log_status.sh /var/www/mobox_deb/usr/local/bin/log_status.sh
+		chmod 644 /etc/crontab
+                chown root.root /etc/crontab
+                /etc/init.d/cron restart
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/mercantil_rodrigues_mobox.txt
+       fi
+
+############# Lojas Colombo Mobox #############
+# Modificacoes lojas_colombo
+	if [ \$rede == "lj_colombo_mobox" ]; then
+		#cp -a /tmp/importer-$rede/lj_colombo_mobox/clique /usr/local/bin
+		#cp -a /tmp/importer-$rede/lj_colombo_mobox/views.py /var/www/mobox/src/tv-on-demand/tv_on_demand/
+		#cp -a /tmp/importer-$rede/lj_colombo_mobox/flash_home.html /var/www/mobox/src/tv-on-demand/tv_on_demand/templates/tv_on_demand/
+		#cp -a /tmp/importer-$rede/lj_colombo_mobox/teste.c /usr/local/src/
+		#cp -a /tmp/importer-$rede/lj_colombo_mobox/readme /usr/local/src/
+		#cp -a /tmp/importer-$rede/lj_colombo_mobox/rc.local /etc/rc.local
+		#cp -a /tmp/importer-$rede/lj_colombo_mobox/bla.sh /usr/local/bin
+		#cp -a /tmp/importer-$rede/lj_colombo_mobox/mobox_start /var/www/mobox_deb/usr/local/bin/mobox_start
+		rm -f /var/spool/cron/crontabs/root
+		cp -a /tmp/importer-$rede/lj_colombo_mobox/crontab /etc/crontab
+		cp -a /tmp/importer-$rede/lj_colombo_mobox/abre-cliente.sh /usr/local/bin/
+		cp -a /tmp/importer-$rede/lj_colombo_mobox/fecha-cliente.sh /usr/local/bin
+		cp -a /tmp/importer-$rede/lj_colombo_mobox/asoundrc.COLOMBO /root/
+		chmod +x /usr/local/bin/*.sh
+		cp -a /tmp/importer-$rede/lj_colombo_mobox/colombo.swf /var/www/mobox/src/tv-on-demand/tv_on_demand/tod_skins/colombo.swf
+		chmod 0600 /etc/crontab
+		cp -a /tmp/importer-$rede/lj_colombo_mobox/log_status.sh /var/www/mobox_deb/usr/local/bin/log_status.sh
+                chown root.root /etc/crontab
+                /etc/init.d/cron restart
+		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/lj_colombo_mobox.txt
+       fi
+
+############# Modificacoes - COMUNS aos Clientes #############
+	echo "radiob" > /etc/tv.update
+	cp -a /tmp/importer-$rede/gen_media_logs.py /var/www/mobox/src/mediafiles/mediafiles/management/commands/
+	# Correcao Evento
+	cp -a /tmp/importer-$rede/linux/playerlib.py /var/www/mobox/mobox/player/playerlib.py
+	cp -a /tmp/importer-$rede/linux/helpers.py /var/www/mobox/src/clients/clients/helpers.py
+	chmod 600 /etc/tv.update
+	chown root.root /etc/tv.update
+	chown radiob.radiob -R /var/www/mobox/mobox
+	(cd /var/www/mobox/mobox; ./manage.py syncdb --noinput; ./manage.py migrate --delete-ghost-migrations )
+	(cd /var/www/mobox/mobox; ./manage.py import_data)
+	chown radiob. -R /var/www/mobox/
+	chmod +x /usr/local/bin/*.*
+	dpkg -i /tmp/importer-$rede/linux/rcconf_2.5_all.deb
+	cp -a /tmp/importer-$rede/linux/hdmesg /usr/local/bin/
+	echo "radiob" > /etc/atualiza.update
+	chmod 600 /etc/atualiza.update
+	cp -a /tmp/importer-$rede/linux/configura.sh /usr/local/bin/
+	chmod 755 /usr/local/bin/*.sh
+	chmod 755 /usr/local/bin/*
+	rcconf --off exim4
+	rcconf --off nfs-common
+	rcconf --off atd
+	rcconf --off portmap
+	rm -rf /tmp/importer-$rede
+	rm -f /usr/local/scripts/atualiza-$DATA.tar.gz
+	rm -f /usr/local/scripts/*.tar.gz
+	rm -f /usr/local/scripts/bla*
+	#(cd /tmp; rm -rf $rede)
+	mobox_update
+	echo "Update: \$rede - \$loja - em: $DATA - Pacote: atualiza-$DATA.tar.gz" >> /var/log/satelite.log
+else
+	exit 0
+fi
+__EOF__
+
+
+cat << __EOF__ > /mnt/hd500/sistema/tv/$rede/scripts/000/adiciona-update.sh
+#!/bin/bash
+
+ls | grep -v adiciona-update.sh | grep -v remove-update.sh | while read arquivo 
+do
+        ls ../ | grep -v ^000 | while read loja
+        do
+                #echo "criaria-se o link do arquivo \$arquivo na \$loja"
+                ln -s ../000/\$arquivo ../\$loja/\$arquivo
+        done
+done
+__EOF__
+
+
+chmod +x /mnt/hd500/sistema/tv/$rede/scripts/000/*.sh
+chown root. -R /mnt/hd500/sistema/tv/$rede/scripts/
+
+(cd /mnt/hd500/sistema/tv/$rede/scripts/000/ ; ./adiciona-update.sh 2> /dev/null)
+rm -rf /tmp/importer-$rede
+
+rm  -f /tmp/lista_video-$rede.txt
+rm  -f /tmp/lista_imagem-$rede.txt
+rm  -f /tmp/lista_audio-$rede.txt
+rm  -f /tmp/video_mute-$rede.txt
+
+
+echo "Resumo:"
+echo "Local do Pacote:  /mnt/hd500/sistema/tv/$rede/scripts/000/atualiza-$DATA.tar.gz"
+echo "Tamanho do pacote `ls -lah /mnt/hd500/sistema/tv/$rede/scripts/000/atualiza-$DATA.tar.gz | cut -d " " -f5`"
+echo "<html>" > /var/www/rede.html
+echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"5\"> " >> /var/www/rede.html
+echo "Rede em uso: <br>" >> /var/www/rede.html
+echo "Livre para gerar atualizacoes nos clientes via rede " >> /var/www/rede.html
+echo "</html>" >> /var/www/rede.html
+else
+	echo "Errooooooooooo"
+	exit 0
+fi

@@ -1,0 +1,46 @@
+#!/bin/bash
+# Criado por Gildecio E Barboza <gildecio@gmail.com>
+FILE="/ti/scripts/fw_arquivos/clientes.txt"
+clear
+echo " ====== MONITORAMENTO GERAL DO SERVIDOR ====== "
+echo -n "O que deseja fazer : 
+1 - linhas em branco (remover)	2 - Remover cliente		7 - Num faz nada
+3 - Adicionar Cliente		4 - Verificar Arquivo		8 - Sair
+5 - Reiniciar Firewall		6 - Ordenar Arquivo
+>> "; read jao
+function firewall(){
+	/etc/init.d/firewall restart
+}
+
+case $jao in
+		1) echo "Remover Linhas em Branco"
+			cat $FILE | sed -i "/^$/d" $FILE # Remove linhas em branco
+			firewall
+		;;
+		2) echo "Remover Parceiro"
+			cat $FILE
+			echo -n "Deseja remover quem : "; read variavel
+			cat $FILE | sed -i "/${variavel}/d" $FILE # remove cliente
+			firewall
+		;;
+		3) echo "Adicionar Parceiro"
+			echo -n "Adicionar IP: "; read ip
+			echo -n "Adicionar Nome: "; read nome
+			echo $ip,$nome >> $FILE
+			firewall
+		;;
+		4) echo "Verificar Arquivo"
+			cat $FILE
+		;;
+		5) echo "Reiniciando o Firewall"
+			firewall
+		;;
+		6) echo "Ordenando Arquivo"
+			cat $FILE | sort > /tmp/.sort.txt
+			mv /tmp/.sort.txt $FILE
+			cat $FILE
+		;;
+		*) echo "Sair ..."
+			exit 0
+		;;
+esac

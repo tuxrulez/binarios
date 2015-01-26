@@ -1,0 +1,1784 @@
+motd file = /ti/conf/rsync/rsyncd.motd
+#log file = /var/log/rsyncd.log
+log format = %t: host %h (%a) %o %f (%l bytes). Total %b bytes.
+max connections = 500
+transfer logging = yes
+timeout = 300
+gid = nogroup
+secrets file = /ti/conf/rsync/rsyncd.secrets
+dont compress = *.gz *.tgz *.zip *.z *.rpm *.deb *.iso *.bz2 *.tbz *.mp3 *.wav *.mpg *.avi *.png *.mp4
+
+#######################################################################################
+# Servidores
+
+[universal_servidores_externos_logs]
+    path = /mnt/hd500/logs_novo/servidores_externos
+    comment = Repositorio de Logs dos Servidores Externos
+    list = no
+    auth users = universal_servidores_externos
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[universal_servidores_internos_logs]
+    path = /mnt/hd500/logs_novo/servidores_internos
+    comment = Repositorio de Logs dos Servidores Internos
+    list = no
+    auth users = universal_servidores_internos
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+#Radio
+
+[universal_radio]
+    path = /mnt/hd500/sistema/radio
+    comment = Repositorio Radio
+    list = no
+    auth users = universal_radio
+
+[universal_radio_logs]
+    path = /mnt/hd500/logs_novo/radio
+    comment = Repositorio Radio Logs
+    list = no
+    auth users = universal_radio
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[ArcoIris_Mix]
+    path = /mnt/hd500/sistema/radio/ArcoIris_Mix
+    comment = Repositorio ArcoIris_Mix
+    list = no
+    auth users = ArcoIris_Mix
+
+[ArcoIris_Mix_logs]
+    path = /mnt/hd500/logs_novo/radio/ArcoIris_Mix
+    comment = Repositorio ArcoIris_Mix Logs
+    list = no
+    auth users = ArcoIris_Mix
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Assai]
+    path = /mnt/hd500/sistema/radio/Assai
+    comment = Repositorio Assai
+    list = no
+    auth users = Assai
+
+[Assai_logs]
+    path = /mnt/hd500/logs_novo/radio/Assai
+    comment = Repositorio Assai Logs
+    list = no
+    auth users = Assai
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Armazem]
+    path = /mnt/hd500/sistema/radio/Armazem
+    comment = Repositorio Armazem
+    list = no
+    auth users = Armazem
+
+[Armazem_logs]
+    path = /mnt/hd500/logs_novo/radio/Armazem
+    comment = Repositorio Armazem Logs
+    list = no
+    auth users = Armazem
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Ademilar]
+    path = /mnt/hd500/sistema/radio/Ademilar
+    comment = Repositorio Ademilar
+    list = no
+    auth users = Ademilar
+
+[Ademilar_logs]
+    path = /mnt/hd500/logs_novo/radio/Ademilar
+    comment = Repositorio Ademilar Logs
+    list = no
+    auth users = Ademilar
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[BomPreco]
+    path = /mnt/hd500/sistema/radio/BomPreco
+    comment = Repositorio BomPreco
+    list = no
+    auth users = BomPreco
+
+[Box]
+    path = /mnt/hd500/sistema/radio/Box
+    comment = Repositorio Box
+    list = no
+    auth users = Box
+
+#[Burger_King]
+#    path = /mnt/hd500/sistema/radio/Burger_King
+#    comment = Repositorio Burger_King
+#    list = no
+#    auth users = Burger_King
+#
+#[Burger_King_logs]
+#    path = /mnt/hd500/logs_novo/radio/Burger_King
+#    comment = Repositorio Burger_King
+#    list = no
+#    auth users = Burger_King
+#    read only = no
+#    write only = yes
+#    gid = radiob
+#    uid = radiob
+
+[Bretas]
+    path = /mnt/hd500/sistema/radio/Bretas
+    comment = Repositorio Bretas
+    list = no
+    auth users = Bretas
+
+[Bretas_logs]
+    path = /mnt/hd500/logs_novo/radio/Bretas
+    comment = Repositorio Bretas Logs
+    list = no
+    auth users = Bretas
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Campeao]
+    path = /mnt/hd500/sistema/radio/Campeao
+    comment = Repositorio Campeao
+    list = no
+    auth users = Campeao
+
+[Campeao_logs]
+    path = /mnt/hd500/logs_novo/radio/Campeao
+    comment = Repositorio Campeao
+    list = no
+    auth users = Campeao
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Carrefour]
+    path = /mnt/hd500/sistema/radio/Carrefour
+    comment = Repositorio Carrefour
+    list = no
+    auth users = Carrefour
+
+[Centauro_Esportes]
+    path = /mnt/hd500/sistema/radio/Centauro_Esportes
+    comment = Repositorio Centauro_Esportes
+    list = no
+    auth users = Centauro_Esportes
+
+[Centauro_Esportes_logs]
+    path = /mnt/hd500/logs_novo/radio/Centauro_Esportes
+    comment = Repositorio Logs Centauro_Esportes
+    list = no
+    auth users = Centauro_Esportes
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Comercial_Carvalho]
+    path = /mnt/hd500/sistema/radio/Comercial_Carvalho
+    comment = Repositorio Comercial_Carvalho
+    list = no
+    auth users = Comercial_Carvalho
+
+[Comercial_Carvalho_logs]
+    path = /mnt/hd500/logs_novo/radio/Comercial_Carvalho
+    comment = Repositorio Logs Comercial_Carvalho
+    list = no
+    auth users = Comercial_Carvalho
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Comprebem]
+    path = /mnt/hd500/sistema/radio/Comprebem
+    comment = Repositorio Comprebem
+    list = no
+    auth users = Comprebem
+
+[Comprebem_logs]
+    path = /mnt/hd500/logs_novo/radio/Comprebem
+    comment = Repositorio Logs Comprebem
+    list = no
+    auth users = Comprebem
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Condor]
+    path = /mnt/hd500/sistema/radio/Condor
+    comment = Repositorio Condor
+    list = no
+    auth users = Condor
+
+[Condor_logs]
+    path = /mnt/hd500/logs_novo/radio/Condor
+    comment = Repositorio Logs Condor
+    list = no
+    auth users = Condor
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Condor_Mix]
+    path = /mnt/hd500/sistema/radio/Condor_Mix
+    comment = Repositorio Condor_Mix
+    list = no
+    auth users = Condor_Mix
+
+[Condor_Mix_logs]
+    path = /mnt/hd500/logs_novo/radio/Condor_Mix
+    comment = Repositorio Logs Condor_Mix
+    list = no
+    auth users = Condor_Mix
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Cyrela]
+    path = /mnt/hd500/sistema/radio/Cyrela
+    comment = Repositorio Cyrela
+    list = no
+    auth users = Cyrela
+
+[Dia_Mix]
+    path = /mnt/hd500/sistema/radio/Dia_Mix
+    comment = Repositorio Dia_Mix
+    list = no
+    auth users = Dia_Mix
+
+[Dia_Mix_logs]
+    path = /mnt/hd500/logs_novo/radio/Dia_Mix
+    comment = Logs Dia_Mix
+    list = no
+    auth users = Dia_Mix
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Dia_Sup]
+    path = /mnt/hd500/sistema/radio/Dia_Sup
+    comment = Repositorio Dia_Sup
+    list = no
+    auth users = Dia_Sup
+
+[Dia_Sup_logs]
+    path = /mnt/hd500/logs_novo/radio/Dia_Sup
+    comment = Logs Dia_Sup
+    list = no
+    auth users = Dia_Sup
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Marisa]
+    path = /mnt/hd500/sistema/radio/Marisa
+    comment = Repositorio Marisa
+    list = no
+    auth users = Marisa
+
+[Marisa_logs]
+    path = /mnt/hd500/logs_novo/radio/Marisa
+    comment = Logs Marisa
+    list = no
+    auth users = Marisa
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Drogaria_Extra]
+    path = /mnt/hd500/sistema/radio/Drogaria_Extra
+    comment = Repositorio Drogaria_Extra
+    list = no
+    auth users = Drogaria_Extra
+
+[Drogaria_Extra_logs]
+    path = /mnt/hd500/logs_novo/radio/Drogaria_Extra
+    comment = Logs Drogaria_Extra
+    list = no
+    auth users = Drogaria_Extra
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Extra]
+    path = /mnt/hd500/sistema/radio/Extra
+    comment = Repositorio Extra
+    list = no
+    auth users = Extra
+
+[Extra_logs]
+    path = /mnt/hd500/logs_novo/radio/Extra
+    comment = Logs Extra
+    list = no
+    auth users = Extra
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Extra_Facil]
+    path = /mnt/hd500/sistema/radio/Extra_Facil
+    comment = Repositorio Extra_Facil
+    list = no
+    auth users = Extra_Facil
+
+[Extra_Facil_logs]
+    path = /mnt/hd500/logs_novo/radio/Extra_Facil
+    comment = Logs Extra_Facil
+    list = no
+    auth users = Extra_Facil
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Farmacia]
+    path = /mnt/hd500/sistema/radio/Farmacia
+    comment = Repositorio Farmacia
+    list = no
+    auth users = Farmacia
+
+[GBarbosa]
+    path = /mnt/hd500/sistema/radio/GBarbosa
+    comment = Repositorio GBarbosa
+    list = no
+    auth users = GBarbosa
+
+[GBarbosa_logs]
+    path = /mnt/hd500/logs_novo/radio/GBarbosa
+    comment = Repositorio Logs GBarbosa
+    list = no
+    auth users = GBarbosa
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Grupo_EB]
+    path = /mnt/hd500/sistema/radio/Grupo_EB
+    comment = Repositorio Grupo_EB
+    list = no
+    auth users = Grupo_EB
+
+[Grupo_EB_logs]
+    path = /mnt/hd500/logs_novo/radio/Grupo_EB
+    comment = Logs Grupo_EB
+    list = no
+    auth users = Grupo_EB
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Makro]
+    path = /mnt/hd500/sistema/radio/Makro
+    comment = Repositorio Makro
+    list = no
+    auth users = Makro
+
+[Makro_logs]
+    path = /mnt/hd500/logs_novo/radio/Makro
+    comment = Repositorio Logs Makro
+    list = no
+    auth users = Makro
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Mc_Donalds]
+    path = /mnt/hd500/sistema/radio/Mc_Donalds
+    comment = Repositorio Mc_Donalds
+    list = no
+    auth users = Mc_Donalds
+
+[MegaBox]
+    path = /mnt/hd500/sistema/radio/MegaBox
+    comment = Repositorio MegaBox
+    list = no
+    auth users = MegaBox
+
+[MegaBox_logs]
+    path = /mnt/hd500/logs_novo/radio/MegaBox
+    comment = Repositorio Logs MegaBox
+    list = no
+    auth users = MegaBox
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Minimercado_Extra]
+    path = /mnt/hd500/sistema/radio/Minimercado_Extra
+    comment = Repositorio Minimercado_Extra
+    list = no
+    auth users = Minimercado_Extra
+
+[Minimercado_Extra_logs]
+    path = /mnt/hd500/logs_novo/radio/Minimercado_Extra
+    comment = Repositorio Logs Minimercado_Extra
+    list = no
+    auth users = Minimercado_Extra
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Muffato]
+    path = /mnt/hd500/sistema/radio/Muffato
+    comment = Repositorio Muffato
+    list = no
+    auth users = Muffato
+
+[Muffato_logs]
+    path = /mnt/hd500/logs_novo/radio/Muffato
+    comment = Repositorio Logs Muffato
+    list = no
+    auth users = Muffato
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[O_Boticario]
+    path = /mnt/hd500/sistema/radio/O_Boticario
+    comment = Repositorio O_Boticario
+    list = no
+    auth users = O_Boticario
+
+[O_Boticario_logs]
+    path = /mnt/hd500/logs_novo/radio/O_Boticario
+    comment = Repositorio O_Boticario Logs
+    list = no
+    auth users = O_Boticario
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Mercantil_Rodrigues]
+    path = /mnt/hd500/sistema/radio/Mercantil_Rodrigues
+    comment = Repositorio Mercantil_Rodrigues
+    list = no
+    auth users = Mercantil_Rodrigues
+
+[Mercantil_Rodrigues_logs]
+    path = /mnt/hd500/logs_novo/radio/Mercantil_Rodrigues
+    comment = Repositorio Mercantil_Rodrigues Logs
+    list = no
+    auth users = Mercantil_Rodrigues
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Pao_de_Acucar]
+    path = /mnt/hd500/sistema/radio/Pao_de_Acucar
+    comment = Repositorio Pao de Acucar
+    list = no
+    auth users = Pao_de_Acucar
+
+[Pao_de_Acucar_logs]
+    path = /mnt/hd500/logs_novo/radio/Pao_de_Acucar
+    comment = Repositorio Logs Pao de Acucar
+    list = no
+    auth users = Pao_de_Acucar
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[PBKids]
+    path = /mnt/hd500/sistema/radio/PBKids
+    comment = Repositorio PBKids
+    list = no
+    auth users = PBKids
+
+[PBKids_logs]
+    path = /mnt/hd500/logs_novo/radio/PBKids
+    comment = Repositorio Logs Pao de Acucar
+    list = no
+    auth users = PBKids
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Perini]
+    path = /mnt/hd500/sistema/radio/Perini
+    comment = Repositorio Perini
+    list = no
+    auth users = Perini
+
+[Perini_logs]
+    path = /mnt/hd500/logs_novo/radio/Perini
+    comment = Repositorio Logs Perini
+    list = no
+    auth users = Perini
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Prezunic]
+    path = /mnt/hd500/sistema/radio/Prezunic
+    comment = Repositorio Prezunic
+    list = no
+    auth users = Prezunic
+
+[Prezunic_logs]
+    path = /mnt/hd500/logs_novo/radio/Prezunic
+    comment = Repositorio Logs Prezunic
+    list = no
+    auth users = Prezunic
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Sendas]
+    path = /mnt/hd500/sistema/radio/Sendas
+    comment = Repositorio Sendas
+    list = no
+    auth users = Sendas
+
+[Sendas_logs]
+    path = /mnt/hd500/logs_novo/radio/Sendas
+    comment = Repositorio Sendas
+    list = no
+    auth users = Sendas
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Shopping]
+    path = /mnt/hd500/sistema/radio/Shopping
+    comment = Repositorio Shopping
+    list = no
+    auth users = Shopping
+
+[Shopping_logs]
+    path = /mnt/hd500/logs_novo/radio/Shopping
+    comment = Repositorio Shopping
+    list = no
+    auth users = Shopping
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Sicredi_Pioneira]
+    path = /mnt/hd500/sistema/radio/Sicredi_Pioneira
+    comment = Repositorio Sicredi_Pioneira
+    list = no
+    auth users = Sicredi_Pioneira
+
+[Sicredi_Pioneira_logs]
+    path = /mnt/hd500/logs_novo/radio/Sicredi_Pioneira
+    comment = Repositorio Sicredi_Pioneira
+    list = no
+    auth users = Sicredi_Pioneira
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Smart]
+    path = /mnt/hd500/sistema/radio/Smart
+    comment = Repositorio Smart
+    list = no
+    auth users = Smart
+
+[Smart_logs]
+    path = /mnt/hd500/logs_novo/radio/Smart
+    comment = Repositorio Logs Smart
+    list = no
+    auth users = Smart
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Subway]
+    path = /mnt/hd500/sistema/radio/Subway
+    comment = Repositorio Subway
+    list = no
+    auth users = Subway
+
+[Subway_logs]
+    path = /mnt/hd500/logs_novo/radio/Subway
+    comment = Repositorio Logs Subway
+    list = no
+    auth users = Subway
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Zaffari]
+    path = /mnt/hd500/sistema/radio/Zaffari
+    comment = Repositorio Zaffari
+    list = no
+    auth users = Zaffari
+
+[Zaffari_logs]
+    path = /mnt/hd500/logs_novo/radio/Zaffari
+    comment = Repositorio Zaffari Logs
+    list = no
+    auth users = Zaffari
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+########################################################################################
+#TV
+
+## TV Manager - Sistema Antigo
+[AATeste_TV]
+    path = /mnt/hd500/sistema/tv/AATeste_TV
+    comment = Repositorio de Videos
+    list = no
+    auth users = AATeste_TV
+
+[AFFERO]
+    path = /mnt/hd500/sistema/tv/AFFERO
+    comment = Repositorio Lojas AFFERO
+    list = no
+    auth users = AFFERO
+
+[AFFERO_logs]
+    path = /mnt/hd500/logs_novo/tv/AFFERO
+    comment = Repositorio Logs AFFERO 
+    list = no
+    auth users = AFFERO
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[AGBarbosa]
+    path = /mnt/hd500/sistema/tv/AGBarbosa
+    comment = Repositorio de Videos
+    list = no
+    auth users = AGBarbosa
+
+[ArcoIris_Mix_TV]
+    path = /mnt/hd500/sistema/tv/ArcoIris_Mix_TV
+    comment = Repositorio ArcoIris_Mix_TV
+    list = no
+    auth users = ArcoIris_Mix_TV
+    exclude = *(FAT)*
+
+[ArcoIris_Mix_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/ArcoIris_Mix_TV
+    comment = Logs ArcoIris_Mix_TV
+    list = no
+    auth users = ArcoIris_Mix_TV
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[Armazem_Paraiba_TV]
+    path = /mnt/hd500/sistema/tv/Armazem_Paraiba_TV
+    comment = Repositorio Lojas Armazem_Paraiba
+    list = no
+    auth users = Armazem_Paraiba_TV
+
+[Armazem_Paraiba_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/Armazem_Paraiba_TV
+    comment = Repositorio Logs Armazem_Paraiba_TV
+    list = no
+    auth users = Armazem_Paraiba_TV
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[BBAovivo]
+    path = /mnt/hd500/sistema/tv/BBAovivo
+    comment = Repositorio BBAovivo
+    list = no
+    auth users = BBAovivo
+
+[BBAovivo_Logs]
+    path = /mnt/hd500/logs_novo/tv/BBAovivo
+    comment = Repositorio Logs BBAovivo 
+    list = no
+    auth users = BBAovivo
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[BBrasil_TV]
+    path = /mnt/hd500/sistema/tv/BBrasil_TV
+    comment = Repositorio BBrasil_TV
+    list = no
+    auth users = BBrasil_TV
+
+[BBrasil_TV_Logs]
+    path = /mnt/hd500/logs_novo/tv/BBrasil_TV
+    comment = Repositorio Logs BBrasil_TV 
+    list = no
+    auth users = BBrasil_TV
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Banco_Brasil_TV]
+    path = /mnt/hd500/sistema/tv/Banco_Brasil_TV
+    comment = Repositorio Banco_Brasil_TV
+    list = no
+    auth users = Banco_Brasil_TV
+
+[Banco_Brasil_Logs]
+    path = /mnt/hd500/logs_novo/tv/Banco_Brasil_Logs
+    comment = Repositorio Logs Banco_Brasil_Logs 
+    list = no
+    auth users = Banco_Brasil_TV
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Berlanda_TV]
+    path = /mnt/hd500/sistema/tv/Berlanda_TV
+    comment = Repositorio Berlanda_TV
+    list = no
+    auth users = Berlanda_TV
+    exclude = *(FAT)*
+
+[Berlanda_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/Berlanda_TV
+    comment = Logs Berlanda_TV
+    list = no
+    auth users = Berlanda_TV
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[Condor_TV]
+    path = /mnt/hd500/sistema/tv/Condor_TV
+    comment = Repositorio Condor_TV
+    list = no
+    auth users = Condor_TV
+    exclude = *(FAT)*
+
+[Condor_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/Condor_TV
+    comment = Logs Condor_TV
+    list = no
+    auth users = Condor_TV
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[Condor_Mix_TV]
+    path = /mnt/hd500/sistema/tv/Condor_Mix_TV
+    comment = Repositorio Condor_Mix_TV
+    list = no
+    auth users = Condor_Mix_TV
+    exclude = *(FAT)*
+
+[Condor_Mix_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/Condor_Mix_TV
+    comment = Logs Condor_Mix_TV
+    list = no
+    auth users = Condor_Mix_TV
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[Dia_Mix_TV]
+    path = /mnt/hd500/sistema/tv/Dia_Mix_TV
+    comment = Repositorio Dia_Mix_TV
+    list = no
+    auth users = Dia_Mix_TV
+    exclude = *(FAT)*
+
+[Dia_Mix_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/Dia_Mix_TV
+    comment = Logs Dia_Mix_TV
+    list = no
+    auth users = Dia_Mix_TV
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[Elektra_TV]
+    path = /mnt/hd500/sistema/tv/Elektra_TV
+    comment = Repositorio Elektra_TV
+    list = no
+    auth users = Elektra_TV
+    exclude = *(FAT)*
+
+[Eletrosom_TV]
+    path = /mnt/hd500/sistema/tv/Eletrosom_TV
+    comment = Repositorio Eletrosom_TV
+    list = no
+    auth users = Eletrosom_TV
+    exclude = *(FAT)*
+
+[Eletrosom_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/Eletrosom_TV
+    comment = Logs Eletrosom TV
+    list = no
+    auth users = Eletrosom_TV
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[Eletrozema_TV]
+    path = /mnt/hd500/sistema/tv/Eletrozema_TV
+    comment = Repositorio Eletrozema_TV
+    list = no
+    auth users = Eletrozema_TV
+    exclude = *(FAT)*
+
+[Eletrozema_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/Eletrozema_TV
+    comment = Logs Eletrozema_TV
+    list = no
+    auth users = Eletrozema_TV
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[FGV_TV]
+    path = /mnt/hd500/sistema/tv/FGV_TV
+    comment = Repositorio FGV_TV
+    list = no
+    auth users = FGV_TV
+    exclude = *(FAT)*
+
+[FGV_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/FGV_TV
+    comment = Logs FGV_TV
+    list = no
+    auth users = FGV_TV
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[GBarbosa_FT]
+    path = /mnt/hd500/sistema/tv/GBarbosa_FT
+    comment = Repositorio Gbarbosa Fila unica e Tvwall
+    list = no
+    auth users = GBarbosa_FT
+
+[GBarbosa_FT_logs]
+    path = /mnt/hd500/logs_novo/tv/GBarbosa_FT
+    comment = Logs GB fila unica
+    list = no
+    auth users = GBarbosa_FT
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[GBarbosa_TV]
+    path = /mnt/hd500/sistema/tv/GBarbosa_TV
+    comment = Repositorio GBarbosa_TV
+    list = no
+    auth users = GBarbosa_TV
+    exclude = *(FAT)*
+
+[GBarbosa_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/GBarbosa_TV
+    comment = Logs GBarbosa TV
+    list = no
+    auth users = GBarbosa_TV
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[GLT_MURAL]
+    path = /mnt/hd500/sistema/tv/GLT_MURAL
+    comment = Repositorio GLT_MURAL
+    list = no
+    read only = no
+    auth users = GLT_MURAL
+    exclude = *(FAT)*
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[GLT_MURAL_CONSULTA]
+    path = /mnt/hd500/sistema/tv/GLT_MURAL
+    comment = Repositorio GLT_MURAL
+    list = no
+    read only = no
+    auth users = GLT_MURAL
+    exclude = *(FAT)*
+    gid = radiob
+    uid = radiob
+
+[Lojas_Colombo_TV]
+    path = /mnt/hd500/sistema/tv/Lojas_Colombo_TV
+    comment = Repositorio Lojas Colombo
+    list = no
+    auth users = Lojas_Colombo_TV
+
+[Lojas_Colombo_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/Lojas_Colombo_TV
+    comment = Logs Lojas Colombo TV
+    list = no
+    read only = no
+    auth users = Lojas_Colombo_TV
+    gid = radiob
+    uid = radiob
+
+[Lojas_Taqi_TV]
+    path = /mnt/hd500/sistema/tv/Lojas_Taqi_TV
+    comment = Repositorio Lojas Taqi
+    list = no
+    auth users = Lojas_Taqi_TV
+
+[Lojas_Taqi_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/Lojas_Taqi_TV
+    comment = Repositorio Logs Taqi
+    list = no
+    auth users = Lojas_Taqi_TV
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Macavi_Conceito_TV]
+    path = /mnt/hd500/sistema/tv/Macavi_Conceito_TV
+    comment = Repositorio Lojas Macavi
+    list = no
+    auth users = Macavi_Conceito_TV
+
+[Macavi_Conceito_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/Macavi_Conceito_TV
+    comment = Repositorio Logs Macavi
+    list = no
+    auth users = Macavi_Conceito_TV
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Macavi_TV]
+    path = /mnt/hd500/sistema/tv/Macavi_TV
+    comment = Repositorio Macavi
+    list = no
+    auth users = Macavi_TV
+
+[Makro_TV]
+    path = /mnt/hd500/sistema/tv/Makro_TV
+    comment = Repositorio Makro
+    list = no
+    auth users = Makro_TV
+    exclude = *(FAT)*
+
+[Makro_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/Makro_TV
+    comment = Logs Makro TV
+    list = no
+    auth users = Makro_TV
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Megamidia_TV]
+    path = /mnt/hd500/sistema/tv/Megamidia_TV
+    comment = Repositorio Megamidia
+    list = no
+    auth users = Megamidia_TV
+    exclude = *(FAT)*
+
+[Muffato_Adega]
+    path = /mnt/hd500/mnt/muffato
+    comment = Repositorio Muffato Adega
+    list = no
+    auth users = Muffato_Adega 
+    exclude = *(FAT)*
+
+[Muffato_Adega_logs]
+    path = /mnt/hd500/logs_novo/adega/Muffato_Adega
+    comment = Logs Muffato Adega
+    list = no
+    auth users = Muffato_Adega
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Muffato_TV]
+    path = /mnt/hd500/sistema/tv/Muffato_TV
+    comment = Repositorio Muffato_TV
+    list = no
+    auth users = Muffato_TV
+    exclude = *(FAT)*
+
+[Muffato_TV_logs]
+    path = /mnt/hd500/logs_novo/tv/Muffato_TV
+    comment = Logs Muffato_TV
+    list = no
+    auth users = Muffato_TV
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Pao_Elevadores]
+    path = /mnt/hd500/sistema/tv/Pao_Elevadores
+    comment = Repositorio Pao Elevadores
+    list = no
+    auth users = Pao_Elevadores
+    exclude = *(FAT)*
+
+[Pao_Elevadores_logs]
+    path = /mnt/hd500/logs_novo/tv/Pao_Elevadores
+    comment = Logs Pao Elevadores
+    list = no
+    auth users = Pao_Elevadores
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[SKY_MURAL]
+    path = /mnt/hd500/sistema/tv/SKY_MURAL
+    comment = Repositorio SKY_MURAL
+    list = no
+    read only = no
+    auth users = SKY_MURAL
+    exclude = *(FAT)*
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[SKY_MURAL_CONSULTA]
+    path = /mnt/hd500/sistema/tv/SKY_MURAL
+    comment = Repositorio SKY_MURAL
+    list = no
+    read only = no
+    auth users = SKY_MURAL
+    exclude = *(FAT)*
+    gid = radiob
+    uid = radiob
+
+[CNH_MURAL]
+    path = /mnt/hd500/sistema/tv/CNH_MURAL
+    comment = Repositorio CNH_MURAL
+    list = no
+    read only = no
+    auth users = CNH_MURAL
+    exclude = *(FAT)*
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[CNH_MURAL_CONSULTA]
+    path = /mnt/hd500/sistema/tv/CNH_MURAL
+    comment = Repositorio CNH_MURAL
+    list = no
+    read only = no
+    auth users = CNH_MURAL
+    exclude = *(FAT)*
+    gid = radiob
+    uid = radiob
+
+[POSITIVO-INFO_MURAL]
+    path = /mnt/hd500/sistema/tv/POSITIVO-INFO_MURAL
+    comment = Repositorio POSITIVO-INFO_MURAL
+    list = no
+    read only = no
+    auth users = POSITIVO-INFO_MURAL
+    exclude = *(FAT)*
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[POSITIVO-INFO_MURAL_CONSULTA]
+    path = /mnt/hd500/sistema/tv/POSITIVO-INFO_MURAL
+    comment = Repositorio POSITIVO-INFO_MURAL
+    list = no
+    read only = no
+    auth users = POSITIVO-INFO_MURAL
+    exclude = *(FAT)*
+    gid = radiob
+    uid = radiob
+
+[POSITIVO-GRAF_MURAL]
+    path = /mnt/hd500/sistema/tv/POSITIVO-GRAF_MURAL
+    comment = Repositorio POSITIVO-GRAF_MURAL
+    list = no
+    read only = no
+    auth users = POSITIVO-GRAF_MURAL
+    exclude = *(FAT)*
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[POSITIVO-GRAF_MURAL_CONSULTA]
+    path = /mnt/hd500/sistema/tv/POSITIVO-GRAF_MURAL
+    comment = Repositorio POSITIVO-GRAF_MURAL
+    list = no
+    read only = no
+    auth users = POSITIVO-GRAF_MURAL
+    exclude = *(FAT)*
+    gid = radiob
+    uid = radiob
+
+[Sicredi_PioneiraTV]
+    path = /mnt/hd500/sistema/tv/Sicredi_PioneiraTV
+    comment = Repositorio Sicredi_PioneiraTV
+    list = no
+    auth users = Sicredi_PioneiraTV
+    exclude = *(FAT)*
+
+[Sicredi_PioneiraTV_logs]
+    path = /mnt/hd500/logs_novo/tv/Sicredi_PioneiraTV
+    comment = Logs Sicredi_PioneiraTV
+    list = no
+    auth users = Sicredi_PioneiraTV
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[VALE_MURAL]
+    path = /mnt/hd500/sistema/tv/VALE_MURAL
+    comment = Repositorio VALE_MURAL
+    list = no
+    read only = no
+    auth users = VALE_MURAL
+    exclude = *(FAT)*
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[VALE_MURAL_CONSULTA]
+    path = /mnt/hd500/sistema/tv/VALE_MURAL
+    comment = Repositorio VALE_MURAL
+    list = no
+    read only = no
+    auth users = VALE_MURAL
+    exclude = *(FAT)*
+    gid = radiob
+    uid = radiob
+
+[letrosom_TV]
+    path = /mnt/hd500/sistema/tv/letrosom_TV
+    comment = Repositorio letrosom_TV
+    list = no
+    auth users = letrosom_TV
+    exclude = *(FAT)*
+
+[mobox_source]
+    path = /mmrepo/sources/mobox
+    comment = Repositorio Instalacao Mobox
+    list = no
+    auth users = mobox_source
+
+## Base teste para rsync com maquinas em laboratorio
+[mobox_updatelab]
+    path = /var/www/mobger/mobger/media/clients_export
+    comment = Repositorio Lojas mobox_updatelab
+    list = no
+    auth users = mobox_updatelab
+
+#mobox_updatelab_xml]
+#   path = /var/www/mobger/mobger/media/clients_export
+#   comment = Repositorio Lojas mobox_updatela_xml
+#   list = no
+#   auth users = mobox_updatelab_xml
+
+
+[fgv_lab]
+    path = /var/www/fgv_manager/fgv_manager/media/mediafiles/mediafile
+    comment = Repositorio Lojas fgv_lab
+    list = no
+    auth users = fgv_lab
+
+[fgv_lab_xml]
+    path = /var/www/fgv_manager/fgv_manager/media/clients_export
+    comment = Repositorio Lojas fgv_lab_xml
+    list = no
+    auth users = fgv_lab_xml
+
+
+## Logs Mobox - Sincronismo do servidor Chimera para exibicao dos logs na pagina http://10.0.1.235/logs
+[mobox_logs]
+    path = /mnt/hd500/logs_novo/tv_new
+    comment = Repositorio Logs mobox_logs
+    list = no
+    auth users = mobox_logs
+
+
+## Clientes Servidores - Sistema Mobox
+[clientes_mobox_server]
+    path = /var/www/mobger/mobger/media/mediafiles/mediafile
+    comment = Repositorio Lojas clientes_mobox_server
+    list = no
+    auth users = clientes_mobox_server
+
+[clientes_mobox_server_xml]
+    path = /var/www/mobger/mobger/media/clients_export
+    comment = Repositorio Lojas clientes_mobox_server_xml
+    list = no
+    auth users = clientes_mobox_server_xml
+
+
+## TV Mobox - Sistema Novo
+[armazem_paraiba]
+    path = /mnt/hd500/sistema/tv/armazem_paraiba
+    comment = Repositorio Lojas armazem_paraiba
+    list = no
+    auth users = armazem_paraiba
+
+[armazem_paraiba_logs]
+    path = /mnt/hd500/logs_novo/tv_new/armazem_paraiba
+    comment = Repositorio Logs armazem_paraiba
+    list = no
+    auth users = armazem_paraiba
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[armazem_paraiba_server]
+    path = /var/www/mobger/mobger/media/mediafiles/mediafile
+    comment = Repositorio Lojas armazem_paraiba_server
+    list = no
+    auth users = armazem_paraiba_server
+
+[armazem_paraiba_server_xml]
+    path = /var/www/mobger/mobger/media/clients_export
+    comment = Repositorio Lojas armazem_paraiba_server_xml
+    list = no
+    auth users = armazem_paraiba_server_xml
+
+[burger_king]
+    path = /mnt/hd500/sistema/tv/burger_king
+    comment = Repositorio burger_king
+    list = no
+    auth users = burger_king
+    exclude = *(FAT)*
+
+[burger_king_logs]
+    path = /mnt/hd500/logs_novo/tv_new/burger_king
+    comment = Logs burger_king
+    list = no
+    auth users = burger_king
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[condor_mobox]
+    path = /mnt/hd500/sistema/tv/condor_mobox
+    comment = Repositorio condor_mobox
+    list = no
+    auth users = condor_mobox
+    exclude = *(FAT)*
+
+[condor_mobox_logs]
+    path = /mnt/hd500/logs_novo/tv_new/condor_mobox
+    comment = Logs condor_mobox
+    list = no
+    auth users = condor_mobox
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[agiplan]
+    path = /mnt/hd500/sistema/tv/agiplan
+    comment = Repositorio agiplan
+    list = no
+    auth users = agiplan
+    exclude = *(FAT)*
+
+[agiplan_logs]
+    path = /mnt/hd500/logs_novo/tv_new/agiplan
+    comment = Logs agiplan
+    list = no
+    auth users = agiplan
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[fgv]
+    path = /mnt/hd500/sistema/tv/fgv
+    comment = Repositorio fgv
+    list = no
+    auth users = fgv
+    exclude = *(FAT)*
+
+[fgv_logs]
+    path = /mnt/hd500/logs_novo/tv_new/fgv
+    comment = Logs fgv
+    list = no
+    auth users = fgv
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[gazin]
+    path = /mnt/hd500/sistema/tv/gazin
+    comment = Repositorio gazin
+    list = no
+    auth users = gazin
+    exclude = *(FAT)*
+
+[gazin_logs]
+    path = /mnt/hd500/logs_novo/tv_new/gazin
+    comment = Logs gazin
+    list = no
+    auth users = gazin
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[gbarbosa_mobox]
+    path = /mnt/hd500/sistema/tv/gbarbosa_mobox
+    comment = Repositorio gbarbosa_mobox
+    list = no
+    auth users = gbarbosa_mobox
+    exclude = *(FAT)*
+
+[gbarbosa_mobox_logs]
+    path = /mnt/hd500/logs_novo/tv_new/gbarbosa_mobox
+    comment = Logs gbarbosa_mobox
+    list = no
+    auth users = gbarbosa_mobox
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[comercial_carvalho_mobox]
+    path = /mnt/hd500/sistema/tv/comercial_carvalho_mobox
+    comment = Repositorio comercial_carvalho_mobox
+    list = no
+    auth users = comercial_carvalho_mobox
+    exclude = *(FAT)*
+
+[comercial_carvalho_mobox_logs]
+    path = /mnt/hd500/logs_novo/tv_new/comercial_carvalho_mobox
+    comment = Logs comercial_carvalho_mobox
+    list = no
+    auth users = comercial_carvalho_mobox
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[romera_mobox]
+    path = /mnt/hd500/sistema/tv/romera_mobox
+    comment = Repositorio romera_mobox
+    list = no
+    auth users = romera_mobox
+    exclude = *(FAT)*
+
+[romera_mobox_logs]
+    path = /mnt/hd500/logs_novo/tv_new/romera_mobox
+    comment = Logs Romera Mobox
+    list = no
+    auth users = romera_mobox
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[prezunic_mobox]
+    path = /mnt/hd500/sistema/tv/prezunic_mobox
+    comment = Repositorio prezunic_mobox
+    list = no
+    auth users = prezunic_mobox
+    exclude = *(FAT)*
+
+[prezunic_mobox_logs]
+    path = /mnt/hd500/logs_novo/tv_new/prezunic_mobox
+    comment = Logs prezunic Mobox
+    list = no
+    auth users = prezunic_mobox
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[premium_colombo]
+    path = /mnt/hd500/sistema/tv/premium_colombo
+    comment = Repositorio premium_colombo
+    list = no
+    auth users = premium_colombo
+    exclude = *(FAT)*
+
+[premium_colombo_logs]
+    path = /mnt/hd500/logs_novo/tv_new/premium_colombo
+    comment = Logs premium_colombo
+    list = no
+    auth users = premium_colombo
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[lj_colombo_mobox]
+    path = /mnt/hd500/sistema/tv/lj_colombo_mobox
+    comment = Repositorio colombo_mobox
+    list = no
+    auth users = lj_colombo_mobox
+    exclude = *(FAT)*
+
+[lj_colombo_mobox_logs]
+    path = /mnt/hd500/logs_novo/tv_new/lj_colombo_mobox
+    comment = Logs colombo_mobox
+    list = no
+    auth users = lj_colombo_mobox
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[mercantil_rodrigues_mobox]
+    path = /mnt/hd500/sistema/tv/mercantil_rodrigues_mobox
+    comment = Repositorio mercantil_rodriguesbox
+    list = no
+    auth users = mercantil_rodrigues_mobox
+    exclude = *(FAT)*
+
+[mercantil_rodrigues_mobox_logs]
+    path = /mnt/hd500/logs_novo/tv_new/mercantil_rodrigues_mobox
+    comment = Logs mercantil_rodriguesbox
+    list = no
+    auth users = mercantil_rodrigues_mobox
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[boticario]
+    path = /mnt/hd500/sistema/tv/boticario
+    comment = Repositorio Boticario
+    list = no
+    auth users = boticario
+    exclude = *(FAT)*
+
+[boticario_logs]
+    path = /mnt/hd500/logs_novo/tv_new/boticario
+    comment = Logs Boticario
+    list = no
+    auth users = boticario
+    read only = no
+    write only = no
+    gid = radiob
+    uid = radiob
+
+[mcdonalds_salao]
+    path = /mnt/hd500/sistema/tv/mcdonalds_salao
+    comment = Repositorio mcdonalds_salao
+    list = no
+    auth users = mcdonalds_salao
+    exclude = *(FAT)*
+
+[mcdonalds_salao_logs]
+    path = /mnt/hd500/logs_novo/tv_new/mcdonalds_salao
+    comment = Logs mcdonalds_salao
+    list = no
+    auth users = mcdonalds_salao
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[mcdonalds]
+    path = /mnt/hd500/sistema/tv/mcdonalds
+    comment = Repositorio mcdonalds
+    list = no
+    auth users = mcdonalds
+    exclude = *(FAT)*
+
+[mcdonalds_logs]
+    path = /mnt/hd500/logs_novo/tv_new/mcdonalds
+    comment = Logs mcdonalds
+    list = no
+    auth users = mcdonalds
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[socic]
+    path = /mnt/hd500/sistema/tv/socic
+    comment = Repositorio socic
+    list = no
+    auth users = socic
+    exclude = *(FAT)*
+
+[socic_logs]
+    path = /mnt/hd500/logs_novo/tv_new/socic
+    comment = Logs socic
+    list = no
+    auth users = socic
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[subway_mobox]
+    path = /mnt/hd500/sistema/tv/subway_mobox
+    comment = Repositorio subway_mobox
+    list = no
+    auth users = subway_mobox
+    exclude = *(FAT)*
+
+[subway_mobox_logs]
+    path = /mnt/hd500/logs_novo/tv_new/subway_mobox
+    comment = Logs socic
+    list = no
+    auth users = subway_mobox
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[muffato_max_mobox]
+    path = /mnt/hd500/sistema/tv/muffato_max_mobox
+    comment = Repositorio muffato_max_mobox
+    list = no
+    auth users = muffato_max_mobox
+    exclude = *(FAT)*
+
+[muffato_max_mobox_logs]
+    path = /mnt/hd500/logs_novo/tv_new/muffato_max_mobox
+    comment = Logs muffato_max_mobox
+    list = no
+    auth users = muffato_max_mobox
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+
+[diatv_mix_mobox]
+    path = /mnt/hd500/sistema/tv/diatv_mix_mobox
+    comment = Repositorio diatv_mix_mobox
+    list = no
+    auth users = diatv_mix_mobox
+    exclude = *(FAT)*
+
+[diatv_mix_mobox_logs]
+    path = /mnt/hd500/logs_novo/tv_new/diatv_mix_mobox
+    comment = Logs diatv_mix_mobox
+    list = no
+    auth users = diatv_mix_mobox
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[redesmart_mobox]
+    path = /mnt/hd500/sistema/tv/redesmart_mobox
+    comment = Repositorio redesmart_mobox
+    list = no
+    auth users = redesmart_mobox
+    exclude = *(FAT)*
+
+[redesmart_mobox_logs]
+    path = /mnt/hd500/logs_novo/tv_new/redesmart_mobox
+    comment = Logs redesmart_mobox
+    list = no
+    auth users = redesmart_mobox
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[extra_minimercado_mobox]
+    path = /mnt/hd500/sistema/tv/extra_minimercado_mobox
+    comment = Repositorio extra_minimercado_mobox
+    list = no
+    auth users = extra_minimercado_mobox
+    exclude = *(FAT)*
+
+[extra_minimercado_mobox_logs]
+    path = /mnt/hd500/logs_novo/tv_new/extra_minimercado_mobox
+    comment = Logs extra_minimercado_mobox
+    list = no
+    auth users = extra_minimercado_mobox
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+########################################################################################
+#PLATAFORMA ENTERA
+
+[Eletrobras_EN]
+    path = /home/m3s/Eletrobras_EN
+    comment = Repositorio Eletrobras ENTERA
+    list = no
+    auth users = Eletrobras_EN
+
+[IMAP_EN]
+    path = /home/m3s/IMAP_EN
+    comment = Repositorio IMAP ENTERA
+    list = no
+    auth users = IMAP_EN
+
+[Termomecanica_EN]
+    path = /home/m3s/Termomecanica_EN
+    comment = Repositorio Termomecanica ENTERA
+    list = no
+    auth users = Termomecanica_EN
+
+########################################################################################
+#Digtal Signage
+
+[Pao_de_Acucar_DS]
+    path = /home/mds/Pao_de_Acucar_DS
+    comment = Repositorio Pao de Acucar DS Loja do Futuro
+    list = no
+    auth users = Pao_de_Acucar_DS
+    exclude = *(FAT)*
+
+########################################################################################
+#Projeto Especial
+
+[speciale]
+    path = /mnt/hd500/mnt/speciale
+    comment = Repositorio Makro Adega
+    list = no
+    auth users = speciale
+    exclude = *(FAT)*
+
+[adegamuffato]
+    path = /mnt/hd500/mnt/muffato
+    comment = Repositorio Muffato Adega
+    list = no
+    auth users = Adega
+    exclude = *(FAT)*
+
+[Makro_Mural]
+    path = /mnt/hd500/mnt/mural_makro
+    comment = Repositorio Makro Mural
+    list = no
+    auth users = Makro_Mural
+    exclude = *(FAT)*
+
+[rss]
+    path = /mnt/hd500/mnt/rss
+    comment = Repositorio de RSS
+    list = no
+    auth users = rss
+
+## Projeto Especial Recebimento de Logs
+
+[Makro_Adega_logs]
+    path = /mnt/hd500/logs_novo/adega/Makro_Adega
+    comment = Logs Makro_Adega
+    list = no
+    auth users = Makro_Adega
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+[Makro_Mural_logs]
+    path = /mnt/hd500/logs_novo/mural/Makro_Mural
+    comment = Logs Makro_Mural
+    list = no
+    auth users = Makro_Mural
+    read only = no
+    write only = yes
+    gid = radiob
+    uid = radiob
+
+# UPDATE Maquinas 0800
+
+[0800]
+    path = /mnt/hd500/sistema/infra/0800/
+    comment = Repositorio 0800
+    list = no
+    auth users = 0800
+    gid = root
+    exclude = *(FAT)*
+
+[08002]
+    path = /mnt/hd500/sistema/infra/0800/scripts2/
+    comment = Repositorio 08002
+    list = no
+    auth users = 0800
+    gid = root
+    exclude = *(FAT)*
+
+# Backup Server2
+
+[backup]
+    path = /mnt/backup/server2
+    comment = Repositorio Server2
+    read only = no
+    list = no
+    auth users = server2
+    gid = radiob
+    exclude = *(FAT)*
+
+[burgerking]
+    path = /mnt/hd500/sistema/infra/burgerking/
+    comment = Repositorio burgerking
+    list = no
+    auth users = burgerking
+    gid = root
+    exclude = *(FAT)*
+
+[burgerking_logs]
+    path = /mnt/hd500/logs_novo/tcd/burgerking
+    comment = Repositorio burgerking
+    read only = no
+    list = no
+    auth users = burgerking
+    uid = radiob
+    gid = radiob
+    exclude = *(FAT)*

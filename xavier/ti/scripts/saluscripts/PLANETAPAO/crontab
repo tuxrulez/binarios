@@ -1,0 +1,24 @@
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+HOME=/
+
+# Atualizado 2012-02-15
+
+# Gera nova playlist
+01 00 * * * root killall X > /dev/null
+
+# Atualizacao de conteudo da maquina durante a madrugada
+20 01 * * * root /usr/local/bin/radio-update.sh > /dev/null
+
+# Gera arquivo de status da maquina e envia para o server
+50 05 * * * root /usr/local/bin/log-status.sh > /dev/null
+30 10 * * * root /usr/local/bin/status-maquina.sh > /dev/null
+
+# Remove os logs com mais de sete dias
+40 16 * * * root /usr/local/bin/limpa-log.sh > /dev/null
+
+# A hora do planeta
+30 20 31 * 7 root /usr/local/bin/planetaon.sh > /dev/null
+30 21 31 * 7 root /usr/local/bin/planetaoff.sh > /dev/null 
+31 20,21 31 * 7 root killall X > /dev/null

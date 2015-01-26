@@ -1,0 +1,185 @@
+#!/bin/bash
+
+usuario=`echo $USER`
+
+if [ $usuario = "suporte" -o  $usuario = "root" ]; then
+	clear
+	echo "vire homem e use outro script"
+	sleep 1
+	echo "Voce eh muleque ... Pede pra sair!!"
+	sleep 1
+	echo "vire homem e use outro script"
+	sleep 1
+	echo "Vire nao eh caveira!!"
+	sleep 1
+	echo "vire homem e use outro script"
+	sleep 1
+	echo "Menininhaaaaaa"
+	sleep 1
+	echo "vire homem e use outro script"
+	sleep 1
+	echo "Cara de cavalo cego ..."
+	sleep 1
+	echo "vire homem e use outro script ..."
+	sleep 1
+	exit 0
+fi
+
+path_relat="/var/log/menu.log"
+bin="/usr/local/bin"
+clear
+echo -n "Qual a rede ? :
+	0  - Logar Parceiro
+	1  - Armazem Paraiba - Servidor TV
+	2  - Agiplan - Servidor
+	3  - Centauro Esportes - Servidor Radio
+	4  - GBarbosa - Servidor Radio/TV
+	5  - Muffato - Servidor Radio/TV
+	6  - (Vazio)
+	7  - Zaffari - Servidor Radio
+	8  - Condor Agua Verde
+	9  - Dia - FRANQUIAS
+	10 - Socic
+	a  - Trocar senha
+	b  - Realizar Ping
+	c  - Apagar Chave SSH
+	*  - Sair
+	Digite OPCAO [numeros]: " ; read con
+case $con in 
+	a) echo "Trocar senha"
+		echo -n "Qual usuario: "; read bb
+		/usr/bin/passwd $bb
+		echo $USER:in:"Trocar Senha":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;
+	b) echo "Realizar Ping - *monitorado*"
+		echo -n "Qual IP: "; read ping
+		ping -c10 $ping
+		echo $USER:in:"Ping $ping":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;
+	c) echo "Apagar Chave SSH"
+		echo $USER:in:"Apagar Chave SSH":`date` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH a Maquina Gazin -- `date`"
+		echo ""
+		rm /home/mm_users/$USER/.ssh/known_hosts
+		clear
+		echo "Aguarde ..."
+		sleep 10
+		echo "Realizado com Sucesso ..."
+		sleep 5
+		echo $USER:out:"Apagar SSH":`date` >> $path_relat
+		$bin/menu;
+	;;	
+	0) echo "Logar Parceiro"
+	        echo $USER:in:"PARCEIRO":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		echo -n "Qual usuario: "; read bb
+		echo -n "Qual IP: "; read ip
+		echo -n "Qual porta (default 22): "; read porta
+		ssh -p $porta -l $bb $ip	
+	        echo $USER:out:"PARCEIRO:$bb:$ip":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;
+	1) echo "Armazem Paraiba - Servidor TV"
+		clear
+	        echo "Acesse via server3.megamidia.com.br"
+		sleep 3
+		echo $USER:out:"ArmazemParaiba":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;
+	2) echo "Agiplan - Servidor TV"
+        	echo $USER:in:"Agiplan":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		echo "Servidor OFFLINE"
+		sleep 3
+		clear
+	        echo $USER:out:"Agiplan":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;
+	3) echo "Centauro Esportes - Servidor Radio"
+        	echo $USER:in:"Centauro":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		clear
+		echo "Acesse via server3.megamidia.com.br"
+		sleep 3
+		echo ""
+        	echo $USER:out:"Centauro":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;	
+	4) echo "GBarbosa - Servidor Radio/TV"
+		echo $USER:in:"GBarbosa":`date` >> $path_relat
+		clear
+		echo "Acesse via server3.megamidia.com.br"
+		sleep 3
+		echo ""
+		echo $USER:out:"GBarbosa":`date` >> $path_relat
+		$bin/menu;
+	;;	
+	5) echo "Muffato - Servidor Radio/TV"
+		echo $USER:in:"Muffato":`date` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH ao Servidor Muffato -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: suporte | transmissao "
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@187.95.103.130
+		echo $USER:out:"Muffato":`date` >> $path_relat
+		$bin/menu;
+	;;	
+	7) echo "Zaffari - Servidor Radio"
+		echo $USER:in:"Zaffari":`date` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH ao Servidor Zaffari -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: suporte | transmissao "
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@200.248.74.110
+		echo $USER:out:"Zaffari":`date` >> $path_relat
+		$bin/menu;
+	;;	
+	8) echo "Condor - Agua Verde"
+		echo $USER:in:"Condor":`date` >> $path_relat
+		clear
+		echo "Acesse via server3.megamidia.com.br"
+		sleep 3
+		echo $USER:out:"Condor":`date` >> $path_relat
+		$bin/menu;
+	;;	
+	9) echo "Loja Dia Franquias"
+		echo $USER:in:"Dia_FRANQUIA":`date` >> $path_relat
+		clear
+		/usr/local/bin/dia-ip.sh	
+		echo $USER:out:"Dia_FRANQUIA":`date` >> $path_relat
+		$bin/menu;
+	;;	
+	10) echo "Rede Socic"
+		echo $USER:in:"Socic":`date` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH ao Servidor Socic -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ...   === "
+		echo "" 
+		echo "Usuarios validos: transmissao suporte" 
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@201.90.19.2 -p 7557
+		echo $USER:out:"Socic":`date` >> $path_relat
+		$bin/menu;
+	;;	
+	*) echo "Saindo"
+		exit 0
+
+esac

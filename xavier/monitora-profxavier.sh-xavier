@@ -1,0 +1,53 @@
+#!/bin/bash
+## Script desenvolvido para monitorar servicos necessarios e notificar envolvidos 
+## Gildecio E Barboza <gildecio@gmail.com>
+
+LOG="/usr/src/log/log-profxavier.txt"
+
+testaHD () {
+tamanho=`df -h | grep sda3 | cut -d " " -f23 | cut -d " " -f2 | cut -d "%" -f1`
+}
+
+testaOCS () {
+proocs=`cat /etc/ocsinventory/ocsinventory-agent.cfg | cut -d "=" -f2`
+}
+
+testaBKP () {
+(cd /mnt/backup/profxavier)
+result=$?
+}
+
+testaHD
+
+if [ $tamanho -lt "60" ]; then
+        TAMANHO="OK"
+else
+        TAMANHO="PROB"
+fi
+
+testaOCS
+if [ "$proocs" == "10.0.100.125" ]; then
+        OCS="OK"
+else
+        OCS="PROB"
+fi
+
+testaBKP
+if [ $result -eq "0" ]; then
+        resultado="OK"
+else
+        resultado="PROB"
+fi
+
+
+# ============================================================= #
+clear
+echo "Servidor: " > $LOG
+echo "Resultado do: `hostname`" >> $LOG
+echo "`date`" >> $LOG
+echo "HD:$TAMANHO" >> $LOG
+echo "OCS:$OCS" >> $LOG
+echo "BACKUP:$resultado" >> $LOG
+
+rsync -av /usr/src/log/ --password-file=/etc/monitora.update radiob@server2.megamidia.com.br::monitora
+

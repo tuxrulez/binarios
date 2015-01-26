@@ -1,0 +1,33 @@
+#!/bin/bash
+
+PID=$(ps -eo pid,comm | awk '$2 == "gera-satelite.s" {print $1 }' | sed -n '1p')
+loja1=$(ls -1 /mnt/hd500/sistema/tv/comercial_carvalho_mobox/generos/ | head -n2 | grep -v ^000)
+
+if [ -z "$PID" ]; then
+> /tmp/lista_000_Radio_comercial_carvalho_mobox.txt
+> /tmp/lista_loja_Radio_comercial_carvalho_mobox.txt
+> /tmp/copiar_temp_comercial_carvalho_mobox.txt
+> /tmp/loja_comercial_carvalho_mobox.txt 
+
+ls -1 /mnt/hd500/sistema/tv/comercial_carvalho_mobox/generos/000/audio > /tmp/lista_000_Radio_comercial_carvalho_mobox.txt
+ls -1 /mnt/hd500/sistema/tv/comercial_carvalho_mobox/generos/$loja1/audio > /tmp/lista_loja_Radio_comercial_carvalho_mobox.txt
+ls -1 /mnt/hd500/sistema/tv/comercial_carvalho_mobox/generos/ | grep -v 000 > /tmp/loja_comercial_carvalho_mobox.txt
+
+diff /tmp/lista_000_Radio_comercial_carvalho_mobox.txt /tmp/lista_loja_Radio_comercial_carvalho_mobox.txt | cut -d " " -f2 | grep mp3 > /tmp/copiar_temp_comercial_carvalho_mobox.txt
+
+
+cat /tmp/copiar_temp_comercial_carvalho_mobox.txt | while read arquivo
+	do
+	cat /tmp/loja_comercial_carvalho_mobox.txt | while read loja
+	do
+x=`cat /tmp/copiar_temp_comercial_carvalho_mobox.txt | tail -n1`
+if [ "${arquivo}" == "${x}" ]; then
+	echo "ja existe"
+else
+	(cd /mnt/hd500/sistema/tv/comercial_carvalho_mobox/generos/$loja/audio/; ln -s ../../000/audio/"${arquivo}" "${arquivo}")
+fi
+	done
+done
+else
+	echo "... running"
+fi

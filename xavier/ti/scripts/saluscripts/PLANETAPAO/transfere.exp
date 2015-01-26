@@ -1,0 +1,32 @@
+#!/usr/bin/expect
+
+# Transfere os arquivos de log para server
+# Salustriano Bessa <salusbessa@yahoo.com.br>
+# 2012-02-15
+
+set timeout 120
+
+spawn /bin/sh -c "/usr/bin/scp /var/log/radio/*.zip radiob@$argv:/var/log/radio"
+expect {
+    timeout {
+        exit 1
+    }
+    -re "lost" {
+        exit 1
+    }
+    -re "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        exp_continue
+        exit 0
+    }
+    -re "password:" {
+        send "radiob\r"
+        exp_continue
+        exit 0
+    }
+    -re "Password:" {
+        send "radiob\r"
+        exp_continue
+        exit 0
+    }
+}

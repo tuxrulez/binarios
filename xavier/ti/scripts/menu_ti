@@ -1,0 +1,425 @@
+#!/bin/bash
+
+path_relat="/var/log/menu.log"
+bin="/usr/local/bin"
+clear
+echo -n "Qual a rede ? :
+	a  - Trocar senha
+	0  - Logar Parceiro
+	1  - Armazem da Maria - Radio - Acesso Direto a Maquina
+	2  - Armazem Paraiba - TV - Acesso Direto a Maquina
+	3  - Campeao Matriz - Radio - Acesso Direto a Maquina
+	4  - Campeao Filial - Radio - Acesso Direto a Maquina
+	5  - Centauro Esportes - Servidor Radio
+	6  - Condor - TV - Acesso Direto a Maquina
+	7  - Dia Sup - Servidor Radio
+	8  - Dia TV 1000 - TV - Acesso Direto a Maquina
+	9  - Dia Lj_168 - Radio - Acesso Direto a Maquina
+	10 - Dia Lj_283 - Radio - Acesso Direto a Maquina
+	11 - Dia Lj_9061 - Radio - Acesso Direto a Maquina
+	12 - Dia Lj_9111 - Radio - Acesso Direto a Maquina
+	13 - Dia Lj_9113 - Radio - Acesso Direto a Maquina
+	14 - Eletrosom - Servidor TV
+	15 - GBarbosa DMZ - Servidor Radio/TV
+	16 - GBarbosa LAN - Servidor Radio/TV
+	17 - Giga / Mambo - Servidor Radio
+	18 - Lojas Colombo - Servidor TV
+	19 - MegaBox - Radio - Acesso Direto a Maquina
+	20 - Muffato - Servidor Radio
+	21 - Shopping Iguatemi - Radio - Acesso Direto a Maquina
+	22 - Shopping Total Porto Alegre - Radio - Acesso Direto a Maquina
+	23 - Zaffari - Servidor Radio
+	*  - Sair
+	Digite OPCAO [numeros]: " ; read con
+case $con in 
+	a) echo "Trocar senha"
+		echo -n "Qual usuario: "; read bb
+		/usr/bin/passwd $bb
+		echo $USER:in:"Trocar Senha":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;
+	0) echo "Logar Parceiro"
+	        echo $USER:in:"PARCEIRO":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		echo -n "Qual usuario: "; read bb
+		echo -n "Qual IP: "; read ip
+		echo -n "Qual porta (default 22): "; read porta
+		ssh -p $porta -l $bb $ip	
+	        echo $USER:out:"PARCEIRO":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;
+        1) echo "Armazem da Maria - Radio - Acesso Direto a Maquina"
+                echo $USER:in:"ArmazemMaria":`date` >> $path_relat
+                clear
+                echo ""
+                echo ""
+                echo "Acesso SSH a maquina de radio Armazem loja Armazem_da_Maria (armazemdamaria.dyndns-ip.com) -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob"
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ssh $user@armazemdamaria.dyndns-ip.com
+                echo $USER:out:"ArmazemMaria":`date` >> $path_relat
+                $bin/menu;
+        ;;
+	2) echo "Armazem Paraiba - TV - Acesso Direto a Maquina"
+	        echo $USER:in:"ArmazemParaiba":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH a maquina de tv Armazem_Paraiba_TV loja AA_0001 (189.17.150.241) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: radiob"
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@189.17.150.241
+        	echo $USER:out:"ArmazemParaiba":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;
+	3) echo "Campeao Matriz - Radio - Acesso Direto a Maquina"
+        	echo $USER:in:"CampeaoMatriz":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH a maquina de radio Campeao loja Lj_Rio_Verde  (187.4.96.137) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: radiob"
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@187.4.96.137 -p 28
+	        echo $USER:out:"CampeaoMatriz":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;
+	4) echo "Campeao Filial - Radio - Acesso Direto a Maquina"
+        	echo $USER:in:"CampeaoFilial":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH a maquina de radio Campeao loja Lj_Rio_Verde_Filial (187.4.96.137) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: radiob"
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@187.4.96.137 -p 27
+	        echo $USER:out:"CampeaoFilial":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;	
+	5) echo "Centauro Esportes - Servidor Radio"
+        	echo $USER:in:"Centauro":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH ao Servidor Centauro_Eportes (200.182.6.122) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: suporte | transmissao "
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@200.182.6.122
+        	echo $USER:out:"Centauro":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;	
+	6) echo "Condor - TV - Acesso Direto a Maquina"
+	        echo $USER:in:"CondorTV":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH a maquina de tv Condor_TV loja Agua_Verde (200.150.68.30) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: radiob"
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@200.150.68.30
+        	echo $USER:out:"CondorTV":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;
+	7) echo "Dia Sup - Servidor Radio"
+	        echo $USER:in:"Dia":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		#echo "Acesso SSH ao Servidor Dia_Sup (200.161.150.70) -- `date`"
+		echo "Acesso SSH ao Servidor Dia_Sup (186.215.153.114) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: suporte | transmissao" 
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		#ssh $user@200.161.150.70 
+		ssh $user@186.215.153.114
+	        echo $USER:out:"Dia":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;	
+        8) echo "Dia TV 1000 - TV - Acesso Direto a Maquina"
+                echo $USER:in:"DiaTV1000":`date` >> $path_relat
+                clear
+                echo ""
+                echo ""
+                echo "Acesso SSH a maquina de tv DiaSupermercados loja AA_0001 (tvdia.homelinux.com) -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob"
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ssh $user@tvdia.homelinux.com
+                echo $USER:out:"DiaTV1000":`date` >> $path_relat
+                $bin/menu;
+        ;;
+        9) echo "Dia Lj_168 - Radio - Acesso Direto a Maquina"
+                echo $USER:in:"Dia168":`date` >> $path_relat
+                clear
+                echo ""
+                echo ""
+                echo "Acesso SSH a maquina de radio Dia_Sup loja Lj_168 (187.75.217.20) -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob"
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ssh $user@187.75.217.20
+                echo $USER:out:"Dia168":`date` >> $path_relat
+                $bin/menu;
+        ;;
+        10) echo "Dia Lj_283 - Radio - Acesso Direto a Maquina"
+                echo $USER:in:"Dia283":`date` >> $path_relat
+                clear
+                echo ""
+                echo ""
+                echo "Acesso SSH a maquina de radio Dia_Sup loja Lj_283 (187.11.108.158) -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob"
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ssh $user@187.11.108.158
+                echo $USER:out:"Dia283":`date` >> $path_relat
+                $bin/menu;
+        ;;
+        11) echo "Dia Lj_9061 - Radio - Acesso Direto a Maquina"
+                echo $USER:in:"Dia9061":`date` >> $path_relat
+                clear
+                echo ""
+                echo ""
+                echo "Acesso SSH a maquina de radio Dia_Sup loja Lj_9061 (189.55.242.28) -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob"
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ssh $user@189.55.242.28
+                echo $USER:out:"Dia9061":`date` >> $path_relat
+                $bin/menu;
+        ;;
+        12) echo "Dia Lj_9111 - Radio - Acesso Direto a Maquina"
+                echo $USER:in:"Dia9111":`date` >> $path_relat
+                clear
+                echo ""
+                echo ""
+                echo "Acesso SSH a maquina de radio Dia_Sup loja Lj_9111 (189.55.243.123) -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob"
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ssh $user@189.55.243.123
+                echo $USER:out:"Dia9111":`date` >> $path_relat
+                $bin/menu;
+        ;;
+        13) echo "Dia Lj_9113 - Radio - Acesso Direto a Maquina"
+                echo $USER:in:"Dia9113":`date` >> $path_relat
+                clear
+                echo ""
+                echo ""
+                echo "Acesso SSH a maquina de radio Dia_Sup loja Lj_9113 (189.50.240.50) -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob"
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ssh $user@189.50.240.50
+                echo $USER:out:"Dia9113":`date` >> $path_relat
+                $bin/menu;
+        ;;
+	14) echo "Eletrosom - Servidor TV"
+        	echo $USER:in:"Eletrosom":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		clear
+		echo ""
+		echo ""
+#		echo "Acesso SSH ao Servidor Eletrosom_TV (189.112.219.249) -- `date`"
+		echo "Acesso SSH ao Servidor Eletrosom_TV (conexao.eletrosom.com) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: suporte | transmissao"
+		echo "" 
+		echo -n "Qual usuario : "; read user
+#		ssh $user@189.112.219.249
+		ssh $user@conexao.eletrosom.com
+	        echo $USER:out:"Eletrosom":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;	
+	15) echo "GBarbosa DMZ - Servidor Radio/TV"
+        	echo $USER:in:"GBarbosaDMZ":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH ao Servidor GBarbosa que esta na rede DMZ (172.28.184.5) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: suporte"
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@172.28.184.5
+        	echo $USER:out:"GBarbosaDMZ":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;	
+	16) echo "GBarbosa LAN - Servidor Radio/TV"
+        	echo $USER:in:"GBarbosaLAN":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH ao Servidor GBarbosa_TV / GBarbosa (200.254.108.125) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: suporte | transmissao"
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@200.254.108.125
+        	echo $USER:out:"GBarbosaLAN":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;	
+	17) echo "Giga / Mambo - Servidor Radio"
+		echo $USER:in:"Giga":`date` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH ao Servidor Giga / Mambo (186.200.55.46) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: suporte | transmissao "
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh -p 22000 $user@186.200.55.46
+		echo $USER:out:"Giga":`date` >> $path_relat
+		$bin/menu;
+	;;	
+	18) echo "Lojas Colombo - Servidor TV"
+	        echo $USER:in:"Colombo":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH ao Servidor Lojas_Colombo_TV (200.163.172.162) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: suporte | transmissao"
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@200.163.172.162
+        	echo $USER:out:"Colombo":`date '+%Y-%m-%d %H:%M:%S'` >> $path_relat
+		$bin/menu;
+	;;
+	19) echo "MegaBox - Radio - Acesso Direto a Maquina"
+		echo $USER:in:"MegaBox":`date` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH a maquina de radio MegaBox loja Lj_001 (201.36.191.227) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: radiob"
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@201.36.191.227 -p 718	
+		echo $USER:out:"MegaBox":`date` >> $path_relat
+		$bin/menu;
+	;;	
+	20) echo "Muffato - Servidor Radio"
+		echo $USER:in:"Muffato":`date` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH ao Servidor Muffato (200.195.134.42) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: suporte | transmissao "
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@200.195.134.42
+		echo $USER:out:"Muffato":`date` >> $path_relat
+		$bin/menu;
+	;;	
+	21) echo "Shopping Iguatemi - Radio - Acesso Direto a Maquina"
+		echo $USER:in:"ShoppingIguatemi":`date` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH a maquina de radio Shopping  loja Iguatemi_Fortaleza (shoppingiguatemi.dnsalias.com) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: radiob"
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@shoppingiguatemi.dnsalias.com
+		echo $USER:out:"ShoppingIguatemi":`date` >> $path_relat
+		$bin/menu;
+	;;	
+	22) echo "Shopping Total Porto Alegre - Radio - Acesso Direto a Maquina"
+		echo $USER:in:"ShoppingTotal":`date` >> $path_relat
+		clear
+		echo ""
+		echo ""
+		echo "Acesso SSH a maquina de radio Shopping loja Total_Porto_Alegre (200.175.93.172) -- `date`"
+		echo ""
+		echo "=== Usuario ROOT no way ... === "
+		echo "" 
+		echo "Usuarios validos: radiob"
+		echo "" 
+		echo -n "Qual usuario : "; read user
+		ssh $user@200.175.93.172 -p 6060
+		echo $USER:out:"ShoppingTotal":`date` >> $path_relat
+		$bin/menu;
+	;;	
+        23) echo "Zaffari - Servidor Radio"
+                echo $USER:in:"Zaffari":`date` >> $path_relat
+                clear
+                echo ""
+                echo ""
+                echo "Acesso SSH ao servidor de radio Zaffari (200.248.74.110) -- `date`"
+                echo ""
+                echo "=== Usuario ROOT no way ... === "
+                echo "" 
+                echo "Usuarios validos: radiob"
+                echo "" 
+                echo -n "Qual usuario : "; read user
+                ssh $user@200.248.74.110
+                echo $USER:out:"Zaffari":`date` >> $path_relat
+                $bin/menu;
+        ;;
+	*) echo "Saindo"
+		exit 0
+	;;
+esac
