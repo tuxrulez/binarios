@@ -1,8 +1,0 @@
-#!/bin/bash
-(cd /ti/conf/etc/bind;
-for i in `ls db*`
-	do
-	sed "s/COM/com/g" $i > /tmp/$i.novo
-	mv /tmp/$i.novo $i
-	chown bind. $i
-done)

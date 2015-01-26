@@ -1,2 +1,0 @@
-#!/bin/bash
-scp -P22000 suporte@200.195.168.4:/home/suporte/lixo.txt /tmp/status-sat.txt
