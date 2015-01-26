@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh 200.150.79.5 -lsuporte -p22022
