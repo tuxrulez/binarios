@@ -158,21 +158,6 @@ fi
 
 #TODO: Atualizacao por CLIENTE:
 
-############# Agiplan #############
-# Modificacoes Agiplan
-	if [ \$rede == "agiplan" ]; then
-		rm -f /var/spool/cron/crontabs/root
-		cp -a /tmp/importer/agiplan/crontab /etc/crontab
-		chmod 644 /etc/crontab
-		chown root.root /etc/crontab
-		/etc/init.d/cron restart
-		cp -a /tmp/importer/agiplan/agiplan.swf /var/www/mobox/src/tv-on-demand/tv_on_demand/tod_skins/agiplan.swf
-		cp -a /tmp/importer/agiplan/inittab /usr/src/
-		cp -a /tmp/importer/agiplan/no-dvb.sh /usr/local/bin/
-		cp -a /tmp/importer/agiplan/firewall	/usr/local/bin/
-		cp -a /tmp/importer/agiplan/rc.local	/etc/rc.local
-		echo "ULTIMO Pacote Satelite Recebido em \`date\` ::: " > /var/log/agiplan.txt
-       fi 
 
 ############# FGV #############
 # Modificacoes FGV
